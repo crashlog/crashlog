@@ -1,0 +1,1 @@
+require "crash_log"
