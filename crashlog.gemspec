@@ -2,11 +2,11 @@
 require File.expand_path('../lib/crash_log/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Ivan Vanderbyl"]
-  gem.email         = ["ivanvanderbyl@me.com"]
+  gem.authors       = ["TestPilot CI"]
+  gem.email         = ["support@crashlog.io"]
   gem.description   = %q{CrashLog Exception reporter}
   gem.summary       = %q{CrashLog is an exception handler for production applications}
-  gem.homepage      = ""
+  gem.homepage      = "http://crashlog.io"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -14,4 +14,10 @@ Gem::Specification.new do |gem|
   gem.name          = "crashlog"
   gem.require_paths = ["lib"]
   gem.version       = CrashLog::VERSION
+  gem.platform      = Gem::Platform::RUBY
+
+  gem.add_dependency("activesupport")
+  gem.add_dependency("faraday")
+
+
 end
