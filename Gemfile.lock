@@ -36,6 +36,7 @@ GEM
     rabl (0.6.14)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
+    rake (0.9.2.2)
     rb-fchange (0.0.5)
       ffi
     rb-fsevent (0.9.1)
@@ -61,5 +62,6 @@ DEPENDENCIES
   crashlog!
   guard-rspec
   json_spec
+  rake
   rspec
   uuid
