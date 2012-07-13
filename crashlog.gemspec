@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency("activesupport")
   gem.add_dependency("faraday")
+  gem.add_dependency("json", "> 1.6.0")
   gem.add_dependency("rabl", '>= 0.6.14')
 
 end
