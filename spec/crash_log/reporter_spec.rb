@@ -19,7 +19,7 @@ describe CrashLog::Reporter do
   let(:positive_response_json) { positive_response.to_json }
 
   before do
-    test_connection = Faraday.new(url: subject.url) do |builder|
+    test_connection = Faraday.new(:url => subject.url) do |builder|
       builder.adapter :test, stubs
     end
 
