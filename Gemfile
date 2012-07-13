@@ -5,3 +5,5 @@ gemspec
 
 gem 'rspec'
 gem 'guard-rspec'
+gem 'uuid'
+gem 'json_spec'
