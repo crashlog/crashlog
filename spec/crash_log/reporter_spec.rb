@@ -3,6 +3,9 @@ require 'spec_helper'
 describe CrashLog::Reporter do
   let(:uuid) { UUID.generate }
 
+  let(:config) { stub("Configuration") }
+  subject { CrashLog::Reporter.new(config) }
+
   let!(:stubs) do
     Faraday::Adapter::Test::Stubs.new do |stub|
       stub.post('/notify') { [200, {}, positive_response_json] }
