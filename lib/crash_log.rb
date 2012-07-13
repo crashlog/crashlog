@@ -11,10 +11,8 @@ require 'crash_log/railtie' if defined?(Rails::Railtie)
 require 'crash_log/logging'
 
 module CrashLog
-  autoload :Reporter, 'crash_log/reporter'
+  extend Logging::ClassMethods
 
-  LOG_PREFIX = "** [CrashLog] "
-  extend Logging
   autoload :Reporter,       'crash_log/reporter'
   autoload :Configuration,  'crash_log/configuration'
   autoload :Payload,        'crash_log/payload'
