@@ -9,7 +9,8 @@ module CrashLog
     attr_reader :url, :endpoint
     attr_reader :result
 
-    def initialize
+    def initialize(config)
+      @config = config
       @url = "http://crashlog.io"
       @endpoint = '/notify'
     end
