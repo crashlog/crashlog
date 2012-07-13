@@ -22,6 +22,34 @@ module CrashLog
 
   class << self
 
+    # Sends a notification to CrashLog
+    #
+    # This is the main entry point into the exception sending stack.
+    #
+    # Examples:
+    #
+    #   def something_dangerous
+    #     raise RuntimeError, "This is too dangerous for you"
+    #   rescue => e
+    #     CrashLog.notify(e)
+    #   end
+    #
+    #   You can also include information about the current user and Crashlog
+    #   will allow you to correlate errors by affected users:
+    #
+    #   def something_dangerous
+    #     raise RuntimeError, "This is too dangerous for you"
+    #   rescue => e
+    #     CrashLog.notify(e, current_user)
+    #   end
+    #
+    #   This will try to serialize the current user by calling `as_json`
+    #   otherwise it will try `to_s`
+    #
+    # Returns true if successful, otherwise false
+    def notify(exception, user_data = {})
+      send_notification(exception, user_data)
+    end
     def report_for_duty!
       info("CrashLog initialized and ready to handle exceptions")
     end
