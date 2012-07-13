@@ -20,6 +20,8 @@ module CrashLog
   autoload :Payload,        'crash_log/payload'
   autoload :Backtrace,      'crash_log/backtrace'
 
+  LOG_PREFIX = '** [CrashLog]'
+
   class << self
 
     # Sends a notification to CrashLog
