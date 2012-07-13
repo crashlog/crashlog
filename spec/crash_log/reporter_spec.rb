@@ -3,7 +3,6 @@ require 'spec_helper'
 describe CrashLog::Reporter do
   let(:uuid) { UUID.generate }
 
-  let(:config) { stub("Configuration") }
   subject { CrashLog::Reporter.new(config) }
 
   let!(:stubs) do
