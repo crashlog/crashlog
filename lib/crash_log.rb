@@ -15,6 +15,10 @@ module CrashLog
 
   LOG_PREFIX = "** [CrashLog] "
   extend Logging
+  autoload :Reporter,       'crash_log/reporter'
+  autoload :Configuration,  'crash_log/configuration'
+  autoload :Payload,        'crash_log/payload'
+  autoload :Backtrace,      'crash_log/backtrace'
 
   class << self
 
