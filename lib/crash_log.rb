@@ -76,6 +76,11 @@ module CrashLog
     def logger
       self.configuration.logger || Logger.new($stdout)
     end
+
+    def live?
+      configuration.release_stage?
+    end
+
     end
   end
 end
