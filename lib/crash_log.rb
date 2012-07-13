@@ -55,6 +55,23 @@ module CrashLog
     def report_for_duty!
       info('Initialized and ready to handle exceptions')
     end
+
+    # Configure the gem to send notifications, at the very least an api_key is
+    # required.
+    def configure
+      yield(configuration) if block_given?
+      if configuration.valid?
+        report_for_duty!
+      else
+        error('Not configured correctly')
+      end
+    end
+
+    # The global configuration object.
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
     end
   end
 end
