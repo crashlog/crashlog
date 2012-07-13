@@ -81,6 +81,16 @@ module CrashLog
       configuration.release_stage?
     end
 
+  private
+
+    def send_notification(exception, user_data = {})
+      build_payload(exception, user_data).deliver! if live?
+    end
+
+    def build_payload(exception, user_data = {})
+      Payload.build(exception, configuration) do |payload|
+        payload.add_user_data(user_data)
+      end
     end
   end
 end
