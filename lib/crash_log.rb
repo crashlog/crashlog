@@ -50,8 +50,11 @@ module CrashLog
     def notify(exception, user_data = {})
       send_notification(exception, user_data)
     end
+
+    # Print a message at the top of the applciation's logs to say we're ready.
     def report_for_duty!
-      info("CrashLog initialized and ready to handle exceptions")
+      info('Initialized and ready to handle exceptions')
+    end
     end
   end
 end
