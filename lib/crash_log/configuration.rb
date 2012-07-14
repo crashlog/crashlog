@@ -23,6 +23,8 @@ module CrashLog
       lambda { |line| line if line !~ %r{lib/crash_log} }
     ].freeze
 
+    ENVIRONMENT_FILTERS = []
+
     IGNORE_DEFAULT = ['ActiveRecord::RecordNotFound',
                       'ActionController::RoutingError',
                       'ActionController::InvalidAuthenticityToken',
@@ -87,6 +89,9 @@ module CrashLog
     attr_reader :ignore
 
     attr_reader :announce_endpoint, :announce
+
+    attr_accessor :environment_filters
+
     def initialize
       @secure                   = true
       @use_system_ssl_cert_chain= false
@@ -95,6 +100,7 @@ module CrashLog
       @http_read_timeout        = 5
       @params_filters           = DEFAULT_PARAMS_FILTERS.dup
       @backtrace_filters        = DEFAULT_BACKTRACE_FILTERS.dup
+      @environment_filters      = ENVIRONMENT_FILTERS.dup
       @ignore_by_filters        = []
       @ignore                   = IGNORE_DEFAULT.dup
       @release_stages           = %w(production staging)
