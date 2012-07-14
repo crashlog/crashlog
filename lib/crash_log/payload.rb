@@ -78,8 +78,9 @@ module CrashLog
     # Various meta data about this notifier gem
     def notifier
       {
-        :name => "CrashLog gem",
-        :version => CrashLog::VERSION
+        :name => "CrashLog",
+        :version => CrashLog::VERSION,
+        :platform => defined?(RUBY_PLATFORM) ? RUBY_PLATFORM : nil
       }
     end
 
