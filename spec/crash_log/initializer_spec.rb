@@ -30,6 +30,7 @@ describe "Initializer" do
 
       Rails.stub(:logger).and_return(logger)
 
+      CrashLog.logger.should_not == logger
       CrashLog::Rails.initialize
       CrashLog.logger.should == logger
 
