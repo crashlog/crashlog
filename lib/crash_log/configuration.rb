@@ -61,6 +61,31 @@ module CrashLog
     # property.
     attr_accessor :user_context_key
 
+    # Reporter configuration options
+    #
+    # Host to send exceptions to. Default: crashlog.io
+    attr_accessor :host
+
+    # Port to use for http connections. 80 or 443 by default.
+    attr_writer :port
+
+    def port
+      if @port
+        @port
+      else
+        secure? ? 443 : 80
+      end
+    end
+
+    # HTTP transfer scheme, default: https
+    attr_accessor :scheme
+
+    # API endpoint to context for notifications. Default /notify
+    attr_accessor :endpoint
+
+    # Reader for Array of ignored error class names
+    attr_reader :ignore
+
     def initialize
       @secure                   = true
       @use_system_ssl_cert_chain= false
@@ -71,12 +96,15 @@ module CrashLog
       @backtrace_filters        = DEFAULT_BACKTRACE_FILTERS.dup
       @ignore_by_filters        = []
       @ignore                   = IGNORE_DEFAULT.dup
-      @ignore_user_agent        = []
       @release_stages           = %w(production staging)
       @notifier_version         = CrashLog::VERSION
       @notifier_url             = 'https://github.com/ivanvanderbyl/crashlog'
       @framework                = 'Standalone'
       @stage                    = 'development'
+      @host                     = 'crashlog.io'
+      @port                     = nil
+      @scheme                   = 'https'
+      @endpoint                 = '/notify'
     end
 
     def release_stage?
@@ -97,7 +125,11 @@ module CrashLog
     end
 
     def ignored?(exception)
-      IGNORE_DEFAULT.include?(error_class(exception))
+      ignore.include?(error_class(exception))
+    end
+
+    def secure?
+      scheme == 'https'
     end
 
     # Hash like accessor

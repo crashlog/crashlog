@@ -3,7 +3,13 @@ require 'spec_helper'
 describe CrashLog::Reporter do
   let(:uuid) { UUID.generate }
 
-  let(:config) { stub("Configuration") }
+  let(:config) { stub("Configuration", {
+    :host => "io.crashlog.io",
+    :scheme => "https",
+    :port => 443,
+    :endpoint => '/notify'
+    })
+  }
   subject { CrashLog::Reporter.new(config) }
 
   let!(:stubs) do
@@ -26,15 +32,15 @@ describe CrashLog::Reporter do
     subject.stub(:connection).and_return(test_connection)
   end
 
-  after do
-    stubs.verify_stubbed_calls
-  end
 
   let(:payload) {
     {}
   }
 
   describe '#notify' do
+    after do
+      stubs.verify_stubbed_calls
+    end
     it 'sends a serialized payload to crashlog.io' do
       subject.notify(payload).should be_true
     end
@@ -42,6 +48,12 @@ describe CrashLog::Reporter do
     it 'captures result body' do
       subject.notify(payload).should be_true
       subject.result.should == positive_response
+    end
+  end
+
+  describe 'url' do
+    it 'constructs url from configuration' do
+      subject.url.to_s.should == 'https://io.crashlog.io/notify'
     end
   end
 end
