@@ -6,7 +6,7 @@ module CrashLog
   class Reporter
     include Logging
 
-    attr_reader :host, :port, :scheme, :endpoint
+    attr_reader :host, :port, :scheme, :endpoint, :announce_endpoint
     attr_reader :result
 
     def initialize(config)
@@ -15,6 +15,8 @@ module CrashLog
       @host       = config.host
       @port       = config.port
       @endpoint   = config.endpoint
+      @announce_endpoint = config.announce == true ?
+                            config.announce_endpoint : nil
     end
 
     def notify(payload)
@@ -25,12 +27,30 @@ module CrashLog
       error("Sending exception failed due to a connectivity issue")
     end
 
+    def announce
+      return "Unknown application" unless announce_endpoint
+
+      response = connection.post('/announce', JSON.dump(identification_hash))
+      JSON.load(response.body).symbolize_keys[:application]
+    rescue => e
+      log_exception(e)
+      error("Failed to announce application launch")
+      nil
+    end
+
     def report_result(body)
       @result = JSON.load(body).symbolize_keys
     end
 
     def url
-      URI.parse("#{scheme}://#{host}:#{port}").merge(endpoint)
+      URI.parse("#{scheme}://#{host}:#{port}")
+    end
+
+    def identification_hash
+      {
+        :hostname => SystemInformation.hostname,
+        :timestamp => Time.now.utc.to_i
+      }
     end
 
     def print_result

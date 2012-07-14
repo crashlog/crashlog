@@ -93,8 +93,10 @@ describe CrashLog do
 
   describe '.ready' do
     it 'logs an ready message' do
+      CrashLog::Reporter.any_instance.stub(:announce).and_return("Test Application")
       logger = stub('Logger')
-      logger.should_receive(:info).with("** [CrashLog] Initialized and ready to handle exceptions")
+      logger.should_receive(:info).
+        with("** [CrashLog] Initialized and ready to handle exceptions for Test Application")
 
       CrashLog.stub(:logger).and_return(logger)
       CrashLog.report_for_duty!

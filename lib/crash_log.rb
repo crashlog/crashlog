@@ -13,11 +13,11 @@ require 'crash_log/logging'
 module CrashLog
   extend Logging::ClassMethods
 
-  autoload :Backtrace,      'crash_log/backtrace'
-  autoload :Configuration,  'crash_log/configuration'
-  autoload :Payload,        'crash_log/payload'
-  autoload :Rails,          'crash_log/rails'
-  autoload :Reporter,       'crash_log/reporter'
+  autoload :Backtrace,          'crash_log/backtrace'
+  autoload :Configuration,      'crash_log/configuration'
+  autoload :Payload,            'crash_log/payload'
+  autoload :Rails,              'crash_log/rails'
+  autoload :Reporter,           'crash_log/reporter'
   autoload :SystemInformation,  'crash_log/system_information'
 
   LOG_PREFIX = '** [CrashLog]'
@@ -60,7 +60,13 @@ module CrashLog
 
     # Print a message at the top of the applciation's logs to say we're ready.
     def report_for_duty!
-      info('Initialized and ready to handle exceptions')
+      application = CrashLog::Reporter.new(configuration).announce
+
+      if application
+        info("Initialized and ready to handle exceptions for #{application}")
+      else
+        error("Failed to report for duty, it is possible we are having issues or your application is not configured correctly")
+      end
     end
 
     # Configure the gem to send notifications, at the very least an api_key is

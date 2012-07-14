@@ -86,6 +86,7 @@ module CrashLog
     # Reader for Array of ignored error class names
     attr_reader :ignore
 
+    attr_reader :announce_endpoint, :announce
     def initialize
       @secure                   = true
       @use_system_ssl_cert_chain= false
@@ -105,6 +106,8 @@ module CrashLog
       @port                     = nil
       @scheme                   = 'https'
       @endpoint                 = '/notify'
+      @announce                 = true
+      @announce_endpoint        = '/announce'
     end
 
     def release_stage?
