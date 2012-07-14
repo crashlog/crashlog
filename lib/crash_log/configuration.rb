@@ -52,6 +52,15 @@ module CrashLog
     # Project Root directory
     attr_accessor :project_root
 
+    # If set, this will serialize the object returned by sending this key to
+    # the controller context. You can use this to send user data CrashLog to
+    # correlate errors with users to give you more advanced data about directly
+    # who was affected.
+    #
+    # All user data is stored encrypted for security and always remains your
+    # property.
+    attr_accessor :user_context_key
+
     def initialize
       @secure                   = true
       @use_system_ssl_cert_chain= false
