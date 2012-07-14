@@ -16,8 +16,8 @@ module CrashLog
     def deliver!
       deliver
     rescue Exception => e
-      log_exception(e)
       error('Failed to deliver notification to CrashLog collector')
+      log_exception(e)
     end
 
     attr_reader :config, :backtrace_filters
@@ -42,6 +42,10 @@ module CrashLog
 
     def body
       renderer.render
+    end
+
+    def add_context(data)
+      (@context ||= {}).merge!(data) if data.is_a?(Hash)
     end
 
     def add_user_data(data, value = nil)
