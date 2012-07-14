@@ -18,6 +18,7 @@ module CrashLog
   autoload :Payload,        'crash_log/payload'
   autoload :Rails,          'crash_log/rails'
   autoload :Reporter,       'crash_log/reporter'
+  autoload :SystemInformation,  'crash_log/system_information'
 
   LOG_PREFIX = '** [CrashLog]'
 
