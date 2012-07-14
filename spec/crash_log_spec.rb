@@ -98,4 +98,21 @@ describe CrashLog do
       CrashLog.should be_live
     end
   end
+
+  describe '#ignored?' do
+    it 'returns true if current exception is on ignored list' do
+      CrashLog.ignored?(RuntimeError.new).should be_false
+    end
+
+    it 'ignores ActiveRecord::RecordNotFound' do
+      unless defined?(ActiveRecord)
+        module ActiveRecord
+          class RecordNotFound < RuntimeError
+          end
+        end
+      end
+
+      CrashLog.ignored?(ActiveRecord::RecordNotFound).should be_true
+    end
+  end
 end

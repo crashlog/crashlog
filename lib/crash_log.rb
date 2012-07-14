@@ -81,6 +81,13 @@ module CrashLog
       configuration.release_stage?
     end
 
+    # Looks up ignored exceptions
+    #
+    # Returns true if this exception should be ignored, false otherwise.
+    def ignored?(exception)
+      configuration.ignored?(exception)
+    end
+
   private
 
     def send_notification(exception, user_data = {})

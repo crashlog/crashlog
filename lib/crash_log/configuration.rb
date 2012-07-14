@@ -87,11 +87,23 @@ module CrashLog
       end
     end
 
+    def ignored?(exception)
+      IGNORE_DEFAULT.include?(error_class(exception))
+    end
+
     # Hash like accessor
     def [](key)
       if self.respond_to?(key)
         self.__send__(key)
       end
+    end
+
+  private
+
+    def error_class(exception)
+      # The "Class" check is for some strange exceptions like Timeout::Error
+      # which throw the error class instead of an instance
+      (exception.is_a? Class) ? exception.name : exception.class.name
     end
 
   end
