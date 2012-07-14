@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe CrashLog do
+  def set_public_env
+    CrashLog.configure { |config| config.stage = 'production' }
+  end
+
+  def set_development_env
+    CrashLog.configure { |config| config.stage = 'development' }
+  end
+
   let(:raised_error) do
     begin
       raise RuntimeError, "This broke"
@@ -9,17 +17,41 @@ describe CrashLog do
     end
   end
 
+  after do
+    CrashLog.instance_variable_set("@configuration", nil)
+  end
+
+  let(:user) do
+    stub('User', :email => 'user@example.com')
+  end
+
   describe '.notify' do
-    it 'does not send if not live'
+    it 'does not send if not live' do
+      CrashLog::Reporter.any_instance.should_receive(:notify).never
+
+      CrashLog.stub(:live?).and_return(false)
+      CrashLog.notify(raised_error)
+    end
+
     it 'handles being passed an exception object' do
       CrashLog::Reporter.any_instance.should_receive(:notify).once
 
       CrashLog.stub(:live?).and_return(true)
       CrashLog.notify(raised_error)
-      # CrashLog::Reporter.new.notify({})
     end
 
-    it 'handles being passed an exception object and user data'
+    it 'handles being passed an exception object and context' do
+      payload = {}
+
+      CrashLog::Reporter.any_instance.stub(:notify)
+        #should_receive(:notify).with(payload).once
+      CrashLog.stub(:live?).and_return(true)
+
+      context = {:current_user => user}
+      CrashLog.notify(raised_error, context)
+    end
+
+    it 'handles being passed a hash'
     it 'handles being passed a string'
   end
 
