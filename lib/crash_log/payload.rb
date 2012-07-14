@@ -86,7 +86,7 @@ module CrashLog
 
     # Returns the hostname of this machine
     def hostname
-      Socket.gethostname
+      SystemInformation.hostname
     end
 
   private
