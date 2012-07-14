@@ -72,7 +72,7 @@ module CrashLog
     #
     # Returns UNIX timestamp integer.
     def timestamp
-      Time.now.to_i
+      Time.now.utc.to_i
     end
 
     # Various meta data about this notifier gem
