@@ -13,10 +13,11 @@ require 'crash_log/logging'
 module CrashLog
   extend Logging::ClassMethods
 
-  autoload :Reporter,       'crash_log/reporter'
+  autoload :Backtrace,      'crash_log/backtrace'
   autoload :Configuration,  'crash_log/configuration'
   autoload :Payload,        'crash_log/payload'
-  autoload :Backtrace,      'crash_log/backtrace'
+  autoload :Rails,          'crash_log/rails'
+  autoload :Reporter,       'crash_log/reporter'
 
   LOG_PREFIX = '** [CrashLog]'
 
@@ -40,15 +41,20 @@ module CrashLog
     #   def something_dangerous
     #     raise RuntimeError, "This is too dangerous for you"
     #   rescue => e
-    #     CrashLog.notify(e, current_user)
+    #     CrashLog.notify(e, {current_user: current_user})
     #   end
     #
     #   This will try to serialize the current user by calling `as_json`
     #   otherwise it will try `to_s`
     #
     # Returns true if successful, otherwise false
-    def notify(exception, user_data = {})
-      send_notification(exception, user_data)
+    def notify(exception, context = {})
+      send_notification(exception, context)
+    end
+
+    # Sends the notice unless it is one of the default ignored exceptions.
+    def notify_or_ignore(exception, context = {})
+      send_notification(exception, context = {}) unless ignored?(exception)
     end
 
     # Print a message at the top of the applciation's logs to say we're ready.
@@ -77,6 +83,10 @@ module CrashLog
       self.configuration.logger || Logger.new($stdout)
     end
 
+    # Is the logger live
+    #
+    # Returns true if the current stage is included in the release
+    # stages config, false otherwise.
     def live?
       configuration.release_stage?
     end
@@ -90,13 +100,13 @@ module CrashLog
 
   private
 
-    def send_notification(exception, user_data = {})
-      build_payload(exception, user_data).deliver! if live?
+    def send_notification(exception, context = {})
+      build_payload(exception, context).deliver! if live?
     end
 
-    def build_payload(exception, user_data = {})
+    def build_payload(exception, context = {})
       Payload.build(exception, configuration) do |payload|
-        payload.add_user_data(user_data)
+        payload.add_context(context)
       end
     end
   end
