@@ -20,20 +20,15 @@ describe CrashLog::Payload do
     end
   end
 
-  describe '#add_user_data' do
+  describe '#add_context' do
     it 'user_data should be empty' do
-      subject.user_data.should be_empty
+      subject.context.should be_empty
     end
 
     it 'merges in new user data' do
       data = {:email => "user@example.com"}
-      subject.add_user_data(data)
-      subject.user_data.should == data
-    end
-
-    it 'allows settings key values' do
-      subject.add_user_data('email', 'user@example.com')
-      subject.user_data.should == {:email => 'user@example.com'}
+      subject.add_context(data)
+      subject.context.should == data
     end
   end
 

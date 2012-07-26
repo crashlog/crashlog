@@ -25,20 +25,21 @@ module CrashLog
     def initialize(exception, config)
       @config = config || {}
       @exception_object = exception
-      @user_data = {}
+      @context = {}
       @session = {}
       @environment = {}
       @backtrace_filters = config[:backtrace_filters] || []
 
       # Actually serialize the exception for transport
       @exception = serialize_exception(exception_object)
+      add_environment_data(:system => SystemInformation.to_hash)
     end
 
     def deliver
       Reporter.new(config).notify(self.body)
     end
 
-    attr_reader :exception, :exception_object, :environment, :user_data, :session
+    attr_reader :exception, :exception_object, :environment, :context, :session
 
     def body
       renderer.render
@@ -78,9 +79,8 @@ module CrashLog
     # Various meta data about this notifier gem
     def notifier
       {
-        :name => "CrashLog",
-        :version => CrashLog::VERSION,
-        :platform => defined?(RUBY_PLATFORM) ? RUBY_PLATFORM : nil
+        :name => "crashlog",
+        :version => CrashLog::VERSION
       }
     end
 

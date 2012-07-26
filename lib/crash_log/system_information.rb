@@ -31,8 +31,12 @@ module CrashLog
       end
 
       def environment
-        ENV.dup.reject do |k, v|
-          (k =~ /^HTTP_/) || CrashLog.configuration.environment_filters.include?(k)
+        if ENV.respond_to?(:to_hash)
+          ENV.to_hash.reject do |k, v|
+            (k =~ /^HTTP_/) || CrashLog.configuration.environment_filters.include?(k)
+          end
+        else
+          {}
         end
       end
 

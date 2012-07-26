@@ -1,3 +1,0 @@
-object @exception
-
-attributes :message

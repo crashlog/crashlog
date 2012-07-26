@@ -53,6 +53,7 @@ module CrashLog
 
     # Project Root directory
     attr_accessor :project_root
+    alias :root :project_root
 
     # If set, this will serialize the object returned by sending this key to
     # the controller context. You can use this to send user data CrashLog to
