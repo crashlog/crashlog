@@ -56,7 +56,7 @@ module CrashLog
       end
 
       def context_lines
-        5
+        CrashLog.configuration.context_lines
       end
 
       def inspect
@@ -72,9 +72,12 @@ module CrashLog
           hash[:number] = number
           hash[:method] = method
           hash[:file] = file
-          hash[:context_line] = context_line
-          hash[:pre_context] = pre_context
-          hash[:post_context] = post_context
+
+          if context_lines
+            hash[:context_line] = context_line
+            hash[:pre_context] = pre_context
+            hash[:post_context] = post_context
+          end
         end
       end
 

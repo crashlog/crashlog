@@ -90,6 +90,8 @@ module CrashLog
 
     attr_reader :announce_endpoint, :announce
 
+    attr_accessor :context_lines
+
     attr_accessor :environment_filters
 
     def initialize
@@ -108,12 +110,13 @@ module CrashLog
       @notifier_url             = 'https://github.com/ivanvanderbyl/crashlog'
       @framework                = 'Standalone'
       @stage                    = 'development'
-      @host                     = 'crashlog.io'
+      @host                     = 'stdin.crashlog.io'
       @port                     = nil
       @scheme                   = 'https'
       @endpoint                 = '/notify'
       @announce                 = true
       @announce_endpoint        = '/announce'
+      @context_lines            = 5
     end
 
     def release_stage?
