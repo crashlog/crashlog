@@ -1,7 +1,8 @@
 module CrashLog
   class Backtrace
 
-    autoload :Line, 'crash_log/backtrace/line'
+    autoload :Line,       'crash_log/backtrace/line'
+    autoload :LineCache,  'crash_log/backtrace/line_cache'
 
     # holder for an Array of Backtrace::Line instances
     attr_reader :lines

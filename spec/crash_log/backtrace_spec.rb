@@ -28,6 +28,33 @@ describe CrashLog::Backtrace do
     it 'responds to to_hash' do
       CrashLog::Backtrace.parse(raised_error.backtrace).lines.first.to_hash.should have_keys(:number, :method, :file)
     end
+
+    it 'captures line context' do
+      line = CrashLog::Backtrace.parse(raised_error.backtrace).lines.first
+      line.context_line.should match /raise RuntimeError/
+    end
+
+    it 'captures pre_context' do
+      line = CrashLog::Backtrace.parse(raised_error.backtrace).lines.first
+      line.pre_context.should == [
+        "require 'spec_helper'\n",
+        "\n",
+        "describe CrashLog::Backtrace do\n",
+        "  let(:raised_error) do\n",
+        "    begin\n"
+      ]
+    end
+
+    it 'captures pre_context' do
+      line = CrashLog::Backtrace.parse(raised_error.backtrace).lines.first
+      line.post_context.should == [
+        "    rescue RuntimeError => e\n",
+        "      e\n",
+        "    end\n",
+        "  end\n",
+        "\n"
+      ]
+    end
   end
 
   describe 'filters' do

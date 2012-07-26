@@ -39,6 +39,26 @@ module CrashLog
         to_s == other.to_s
       end
 
+      def context_line
+        Backtrace::LineCache::getline(file, number)
+      end
+
+      def pre_context
+        (number-context_lines..number-1).map {|i|
+          Backtrace::LineCache.getline(file, i)
+        }.select { |line| line }
+      end
+
+      def post_context
+        (number+1..number+context_lines).map {|i|
+          Backtrace::LineCache.getline(file, i)
+        }.select { |line| line }
+      end
+
+      def context_lines
+        5
+      end
+
       def inspect
         "<Line:#{to_s}>"
       end
@@ -52,6 +72,9 @@ module CrashLog
           hash[:number] = number
           hash[:method] = method
           hash[:file] = file
+          hash[:context_line] = context_line
+          hash[:pre_context] = pre_context
+          hash[:post_context] = post_context
         end
       end
 
