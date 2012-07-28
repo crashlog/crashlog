@@ -91,9 +91,16 @@ module CrashLog
 
     attr_reader :announce_endpoint, :announce
 
+    # Send context lines for backtrace.
+    #
+    # Takes an integer of the number of lines, set to false or nil to disable.
     attr_accessor :context_lines
 
+    # Environment variables to discard from ENV.
     attr_accessor :environment_filters
+
+    # Framework name
+    attr_accessor :framework
 
     def initialize
       @secure                   = true
@@ -118,6 +125,7 @@ module CrashLog
       @announce                 = true
       @announce_endpoint        = '/announce'
       @context_lines            = 5
+      @framework                = 'Standalone'
     end
 
     def release_stage?
