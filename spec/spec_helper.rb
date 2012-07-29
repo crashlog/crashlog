@@ -3,6 +3,9 @@ if ENV['COV']
   SimpleCov.start
 end
 
+require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+
+require 'rspec/rails'
 require 'delorean'
 require 'json_spec'
 require 'uuid'
