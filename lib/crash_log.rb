@@ -44,7 +44,7 @@ module CrashLog
     #     CrashLog.notify(e, {current_user: current_user})
     #   end
     #
-    #   This will try to serialize the current user by calling `as_json`
+    #   This will try to serialize the current user by calling `as_crashlog_context` or `as_json`
     #   otherwise it will try `to_s`
     #
     # Returns true if successful, otherwise false
