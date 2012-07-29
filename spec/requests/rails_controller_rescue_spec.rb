@@ -25,6 +25,8 @@ describe 'Rescue from within a Rails 3.x controller' do
   it 'should capture crash log custom data'
 
   it 'should raise error again after notifying' do
+    ENV['RAILS_ENV']='production'
+
     logger = stub("Logger")
     ActionDispatch::DebugExceptions.any_instance.stub(:logger).and_return(logger)
     logger.should_receive(:fatal).once

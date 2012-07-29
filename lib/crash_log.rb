@@ -16,6 +16,7 @@ module CrashLog
   autoload :Backtrace,          'crash_log/backtrace'
   autoload :Configuration,      'crash_log/configuration'
   autoload :Payload,            'crash_log/payload'
+  autoload :Rack,               'crash_log/rack'
   autoload :Reporter,           'crash_log/reporter'
   autoload :SystemInformation,  'crash_log/system_information'
 
