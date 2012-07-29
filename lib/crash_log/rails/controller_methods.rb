@@ -12,13 +12,14 @@ module CrashLog
         }
       end
 
-
     private
       def notify_crashlog(exception, custom_data = nil)
         request_data = crash_log_context
-        request_data[:meta_data][:custom] = custom_data if custom_data
+        #request_data[:meta_data][:custom] = custom_data if custom_data
         CrashLog.notify(exception, request_data)
       end
+
+      alias_method :notify_airbrake, :notify_crashlog
 
       def crash_log_session_data
         if session.respond_to?(:to_hash)
