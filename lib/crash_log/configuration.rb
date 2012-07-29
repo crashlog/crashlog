@@ -102,7 +102,10 @@ module CrashLog
     # Framework name
     attr_accessor :framework
 
+    attr_accessor :dry_run
+
     def initialize
+      @dry_run                  = false
       @secure                   = true
       @use_system_ssl_cert_chain= false
       @host                     = 'crashlog.io'

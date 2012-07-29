@@ -16,11 +16,12 @@ module CrashLog
       @port       = config.port
       @endpoint   = config.endpoint
       @announce_endpoint = config.announce == true ?
-                            config.announce_endpoint : nil
+                           config.announce_endpoint : nil
     end
 
     def notify(payload)
-      response = connection.post(endpoint, JSON.dump(payload))
+      return unless live?
+      response = post(endpoint, JSON.dump(payload))
       report_result(response.body)
       response.success?
     rescue => e
@@ -28,6 +29,7 @@ module CrashLog
     end
 
     def announce
+      return unless live?
       return "Unknown application" unless announce_endpoint
 
       response = connection.post('/announce', JSON.dump(identification_hash))
@@ -58,7 +60,16 @@ module CrashLog
 
     end
 
-  # private
+    def live?
+      !config.dry_run
+    end
+
+    # TODO: Defer this to another thread
+    def post(endpoint, body)
+      connection.post(endpoint, body)
+    end
+
+  private
 
     def connection
       @connection ||= Faraday.new(:url => url) do |faraday|
