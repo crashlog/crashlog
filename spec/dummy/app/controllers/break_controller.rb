@@ -6,4 +6,5 @@ class BreakController < ApplicationController
   def really_broken
     raise RuntimeError, "You hit the broken route"
   end
+
 end
