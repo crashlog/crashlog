@@ -139,12 +139,13 @@ describe CrashLog do
     end
 
     it 'ignores ActiveRecord::RecordNotFound' do
-      unless defined?(ActiveRecord)
-        module ActiveRecord
-          class RecordNotFound < RuntimeError
-          end
-        end
-      end
+      load_dummy_app
+      # unless defined?(ActiveRecord)
+      #   module ActiveRecord
+      #     class RecordNotFound < RuntimeError
+      #     end
+      #   end
+      # end
 
       CrashLog.ignored?(ActiveRecord::RecordNotFound).should be_true
     end

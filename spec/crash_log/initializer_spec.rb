@@ -1,9 +1,14 @@
 require 'spec_helper'
+require 'crash_log/rails'
 
 describe "Initializer" do
 
   let(:logger) { stub("Logger") }
   let(:other_logger) { stub("OtherLogger") }
+
+  # before(:all) do
+  #   load_dummy_app
+  # end
 
   describe 'auto configure logger' do
     before do
@@ -23,7 +28,7 @@ describe "Initializer" do
     end
 
     it "allows overriding of the logger if already assigned" do
-      unless defined?(Rails)
+      unless defined?(::Rails)
         module Rails
         end
       end

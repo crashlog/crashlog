@@ -8,14 +8,13 @@ require 'json_spec'
 require 'uuid'
 require "crash_log"
 
-require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+# require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 
 Dir[File.expand_path("../support/*.rb", __FILE__)].each { |file| require file }
 
 RSpec.configure do |config|
   config.mock_with :rspec
 
-  config.before(:all) do
+  config.before do
   end
 end
-
