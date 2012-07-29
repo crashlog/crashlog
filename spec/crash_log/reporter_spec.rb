@@ -9,7 +9,8 @@ describe CrashLog::Reporter do
     :port => 443,
     :endpoint => '/notify',
     :announce => true,
-    :announce_endpoint => '/announce'
+    :announce_endpoint => '/announce',
+    :dry_run => false
     })
   }
   subject { CrashLog::Reporter.new(config) }
@@ -89,5 +90,7 @@ describe CrashLog::Reporter do
     it 'constructs url from configuration' do
       subject.url.to_s.should == 'https://io.crashlog.io'
     end
+
+    it 'appends auth_token to request'
   end
 end
