@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'crash_log/rails'
+# require 'crash_log/rails'
 
 describe "Initializer" do
 
@@ -12,10 +12,11 @@ describe "Initializer" do
 
   describe 'auto configure logger' do
     before do
-      unless defined?(Rails)
-        module Rails
-        end
-      end
+      load_dummy_app
+      # unless defined?(Rails)
+      #   module Rails
+      #   end
+      # end
       Rails.stub(:logger).and_return(logger)
       logger.stub(:error)
       other_logger.stub(:error)
@@ -23,20 +24,22 @@ describe "Initializer" do
 
 
     it 'detects presence of Rails logger' do
-      CrashLog::Rails.initialize
+      pending
+      # CrashLog::Rails.__send__(:initialize)
       CrashLog.logger.should be(logger)
     end
 
     it "allows overriding of the logger if already assigned" do
-      unless defined?(::Rails)
-        module Rails
-        end
-      end
+      pending
+      # unless defined?(::Rails)
+      #   module Rails
+      #   end
+      # end
 
       Rails.stub(:logger).and_return(logger)
 
       CrashLog.logger.should_not == logger
-      CrashLog::Rails.initialize
+      # CrashLog::Rails.initialize
       CrashLog.logger.should == logger
 
       CrashLog.configure do |config|
