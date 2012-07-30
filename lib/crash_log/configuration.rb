@@ -86,6 +86,26 @@ module CrashLog
     # API endpoint to context for notifications. Default /notify
     attr_accessor :endpoint
 
+    # The faraday adapter to use to make the connection.
+    #
+    # Possible values are:
+    # - :test
+    # - :net_http
+    # - :net_http_persistent
+    # - :typhoeus
+    # - :patron
+    # - :em_synchrony
+    # - :em_http
+    # - :excon
+    # - :rack
+    # - :httpclient
+    #
+    # Possible performance gains can be made by using the em based adapters if
+    # your application supports this architecture.
+    #
+    # Default: net_http
+    attr_accessor :adapter
+
     # Reader for Array of ignored error class names
     attr_reader :ignore
 
@@ -109,8 +129,9 @@ module CrashLog
       @secure                   = true
       @use_system_ssl_cert_chain= false
       @host                     = 'crashlog.io'
-      @http_open_timeout        = 2
-      @http_read_timeout        = 5
+      @http_open_timeout        = 5
+      @http_read_timeout        = 2
+      @adapter                  = :net_http
       @params_filters           = DEFAULT_PARAMS_FILTERS.dup
       @backtrace_filters        = DEFAULT_BACKTRACE_FILTERS.dup
       @environment_filters      = ENVIRONMENT_FILTERS.dup

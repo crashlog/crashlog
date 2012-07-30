@@ -7,7 +7,7 @@ module CrashLog
     include Logging
 
     attr_reader :host, :port, :scheme, :endpoint, :announce_endpoint
-    attr_reader :result, :config
+    attr_reader :result, :config, :response
 
     def initialize(config)
       @config     = config
@@ -20,8 +20,9 @@ module CrashLog
     end
 
     def notify(payload)
-      return unless live?
+      return if dry_run?
       response = post(endpoint, JSON.dump(payload))
+      @response = response
       report_result(response.body)
       response.success?
     rescue => e
@@ -29,10 +30,10 @@ module CrashLog
     end
 
     def announce
-      return unless live?
+      return if dry_run?
       return "Unknown application" unless announce_endpoint
 
-      response = connection.post('/announce', JSON.dump(identification_hash))
+      response = post('/announce', JSON.dump(identification_hash))
       JSON.load(response.body).symbolize_keys[:application]
     rescue => e
       # We only want to log our mess when testing
@@ -60,8 +61,8 @@ module CrashLog
 
     end
 
-    def live?
-      !config.dry_run
+    def dry_run?
+      config.dry_run == true
     end
 
     # TODO: Defer this to another thread
@@ -69,15 +70,24 @@ module CrashLog
       connection.post(endpoint, body)
     end
 
-  private
+  # private
 
     def connection
-      @connection ||= Faraday.new(:url => url) do |faraday|
-        faraday.adapter   Faraday.default_adapter
-        faraday.request   :url_encoded
-        faraday.response  :logger
-        faraday.token_auth config.api_key
+      @connection ||= begin
+        Faraday.new(:url => url) do |faraday|
+          faraday.adapter                 adapter
+          faraday.request                 :url_encoded
+          faraday.request                 :token_auth, config.api_key
+          faraday.response                :logger
+          faraday.options[:timeout]       = config.http_read_timeout
+          faraday.options[:open_timeout]  = config.http_open_timeout
+          faraday.ssl[:verify]            = false
+        end
       end
+    end
+
+    def adapter
+      config.adapter
     end
   end
 end
