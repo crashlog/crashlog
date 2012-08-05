@@ -6,7 +6,7 @@ module CrashLog
 
         def getlines(path)
           CACHE[path] ||= begin
-            IO.readlines(path)
+            IO.readlines(path).map { |line| line.chomp.gsub(/[']/, '\\\\\'') }
           rescue
             []
           end
