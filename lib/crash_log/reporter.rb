@@ -1,6 +1,8 @@
 require "faraday"
 require "uuid"
 require "json"
+require 'uuid'
+require 'yajl'
 
 module CrashLog
   class Reporter
@@ -21,11 +23,13 @@ module CrashLog
 
     def notify(payload)
       return if dry_run?
-      response = post(endpoint, JSON.dump(payload))
+      MultiJson.use(:yajl)
+      response = post(endpoint, MultiJson.encode({:payload => payload}))
       @response = response
       report_result(response.body)
       response.success?
     rescue => e
+      log_exception e
       error("Sending exception failed due to a connectivity issue")
     end
 
