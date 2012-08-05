@@ -14,15 +14,15 @@ describe 'Rescue from within a Rails 3.x controller' do
   end
 
   it 'should intercept error and notify crashlog' do
-    CrashLog.should_receive(:notify).with(kind_of(RuntimeError), kind_of(Hash)).once
+    CrashLog.should_receive(:notify).with(kind_of(RuntimeError)).once
 
     begin
       get '/broken'
+      last_response.status.should == 500
+      last_response.body.should match /We're sorry, but something went wrong/
     rescue
     end
 
-    last_response.status.should == 500
-    last_response.body.should match /We're sorry, but something went wrong/
   end
 
   it 'should capture current user'
@@ -37,9 +37,9 @@ describe 'Rescue from within a Rails 3.x controller' do
 
     begin
       get '/broken'
+      last_response.status.should == 500
     rescue
     end
-    last_response.status.should == 500
   end
 
   it 'should be able to defer reporting to another thread'
