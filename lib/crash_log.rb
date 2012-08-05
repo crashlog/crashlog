@@ -1,3 +1,5 @@
+$: << File.expand_path('..', __FILE__)
+
 require 'crash_log/version'
 begin
   require 'active_support'
@@ -8,6 +10,7 @@ rescue LoadError
 end
 require 'faraday'
 require 'crash_log/railtie' if defined?(Rails::Railtie)
+
 require 'crash_log/logging'
 
 module CrashLog
