@@ -32,7 +32,7 @@ module CrashLog
 
       # Actually serialize the exception for transport
       @exception = serialize_exception(exception_object)
-      add_environment_data(:system => SystemInformation.to_hash)
+      # add_environment_data(:system => SystemInformation.to_hash)
     end
 
     def deliver
