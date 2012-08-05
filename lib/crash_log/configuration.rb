@@ -1,13 +1,13 @@
+require 'hashr'
 module CrashLog
-  class Configuration
-
+  class Configuration < Hashr
     DEFAULT_PARAMS_FILTERS = %w(password password_confirmation).freeze
 
     DEFAULT_BACKTRACE_FILTERS = [
       lambda { |line|
-        if defined?(CrashLog.configuration.project_root) &&
-          CrashLog.configuration.project_root.to_s != ''
-          line.sub(/#{CrashLog.configuration.project_root}/, "[PROJECT_ROOT]")
+        if defined?(CrashLog.configuration.root) &&
+           CrashLog.configuration.root.to_s != ''
+          line.sub(/#{CrashLog.configuration.root}/, "[PROJECT_ROOT]")
         else
           line
         end
@@ -23,8 +23,6 @@ module CrashLog
       lambda { |line| line if line !~ %r{lib/crash_log} }
     ].freeze
 
-    ENVIRONMENT_FILTERS = []
-
     IGNORE_DEFAULT = ['ActiveRecord::RecordNotFound',
                       'ActionController::RoutingError',
                       'ActionController::InvalidAuthenticityToken',
@@ -33,138 +31,138 @@ module CrashLog
                       'AbstractController::ActionNotFound',
                       'Mongoid::Errors::DocumentNotFound']
 
-    # The default logging device
-    #
-    # This will be set to Rails.logger automatically if using Rails,
-    # otherwise it defaults to STDOUT.
-    attr_accessor :logger
 
-    # The API key to authenticate this project with CrashLog
-    #
-    # Get this from your projects configuration page within http://CrashLog.io
-    attr_accessor :api_key
+      # The logger to use for internal messages
+    define :logger => nil,
 
-    # Stages (environments) which we consider to be in a production environment
-    # and thus you want to be sent notifications for.
-    attr_accessor :release_stages
+      # The API key to authenticate this project with CrashLog
+      #
+      # Get this from your projects configuration page within http://CrashLog.io
+      :api_key => nil,
+      :project_id => nil,
 
-    # The name of the current stage
-    attr_reader :stage
+      # Stages (environments) which we consider to be in a production environment
+      # and thus you want to be sent notifications for.
+      :release_stages => ['staging', 'production'],
 
-    # Project Root directory
-    attr_accessor :project_root
-    alias :root :project_root
+      # The name of the current stage
+      :stage => 'development',
 
-    # If set, this will serialize the object returned by sending this key to
-    # the controller context. You can use this to send user data CrashLog to
-    # correlate errors with users to give you more advanced data about directly
-    # who was affected.
-    #
-    # All user data is stored encrypted for security and always remains your
-    # property.
-    attr_accessor :user_context_key
+      # Project Root directory
+      :project_root => nil,
 
-    # Reporter configuration options
-    #
-    # Host to send exceptions to. Default: crashlog.io
-    attr_accessor :host
+      # If set, this will serialize the object returned by sending this key to
+      # the controller context. You can use this to send user data CrashLog to
+      # correlate errors with users to give you more advanced data about directly
+      # who was affected.
+      #
+      # All user data is stored encrypted for security and always remains your
+      # property.
+      :user_context_key => nil,
 
-    # Port to use for http connections. 80 or 443 by default.
-    attr_writer :port
+      # Reporter configuration options
+      #
+      # Host to send exceptions to. Default: crashlog.io
+      :host => 'stdin.crashlog.io',
+
+      # Port to use for http connections. 80 or 443 by default.
+      :port => 443,
+
+      # Shortcut to use secure connection
+      :secure => true,
+
+      # HTTP transfer scheme, default: https
+      :scheme => 'http',
+
+      # API endpoint to context for notifications. Default /notify
+      :endpoint => '/notify',
+
+      # The faraday adapter to use to make the connection.
+      #
+      # Possible values are:
+      # - :test
+      # - :net_http
+      # - :net_http_persistent
+      # - :typhoeus
+      # - :patron
+      # - :em_synchrony
+      # - :em_http
+      # - :excon
+      # - :rack
+      # - :httpclient
+      #
+      # Possible performance gains can be made by using the em based adapters if
+      # your application supports this architecture.
+      #
+      # Default: net_http
+      :adapter => :net_http,
+
+      # Timeout for actually sending the exeption payload
+      :http_read_timeout => 2,
+
+      # Timeout for connecting to CrashLog collector interface
+      :http_open_timeout => 5,
+
+      # Ignored error class names
+      :ignore => IGNORE_DEFAULT.dup,
+
+      # Endpoint used for announcing application launch
+      :announce_endpoint => '/announce',
+      :announce => true,
+
+      # Send context lines for backtrace.
+      #
+      # Takes an integer of the number of lines, set to nil to disable.
+      :context_lines => 5,
+
+      # Environment variables to discard from ENV.
+      :environment_filters => [],
+
+      # Framework name
+      :framework => 'Standalone',
+
+      # Run in dry mode (Doesn't actually send exceptions, used for testing)
+      :dry_run => false,
+
+      :backtrace_filters => DEFAULT_BACKTRACE_FILTERS.dup,
+
+      :params_filters => DEFAULT_PARAMS_FILTERS.dup
+
+    def root
+      fetch(:project_root)
+    end
+
+    def root=(string)
+      self[:project_root] = string
+    end
 
     def port
-      if @port
-        @port
+      if port = fetch(:port)
+        port
       else
         secure? ? 443 : 80
       end
     end
 
-    # HTTP transfer scheme, default: https
-    attr_accessor :scheme
-
-    # API endpoint to context for notifications. Default /notify
-    attr_accessor :endpoint
-
-    # The faraday adapter to use to make the connection.
-    #
-    # Possible values are:
-    # - :test
-    # - :net_http
-    # - :net_http_persistent
-    # - :typhoeus
-    # - :patron
-    # - :em_synchrony
-    # - :em_http
-    # - :excon
-    # - :rack
-    # - :httpclient
-    #
-    # Possible performance gains can be made by using the em based adapters if
-    # your application supports this architecture.
-    #
-    # Default: net_http
-    attr_accessor :adapter
-
-    # Reader for Array of ignored error class names
-    attr_reader :ignore
-
-    attr_reader :announce_endpoint, :announce
-
-    # Send context lines for backtrace.
-    #
-    # Takes an integer of the number of lines, set to false or nil to disable.
-    attr_accessor :context_lines
-
-    # Environment variables to discard from ENV.
-    attr_accessor :environment_filters
-
-    # Framework name
-    attr_accessor :framework
-
-    attr_accessor :dry_run
-
-    def initialize
-      @dry_run                  = false
-      @secure                   = true
-      @use_system_ssl_cert_chain= false
-      @host                     = 'crashlog.io'
-      @http_open_timeout        = 5
-      @http_read_timeout        = 2
-      @adapter                  = :net_http
-      @params_filters           = DEFAULT_PARAMS_FILTERS.dup
-      @backtrace_filters        = DEFAULT_BACKTRACE_FILTERS.dup
-      @environment_filters      = ENVIRONMENT_FILTERS.dup
-      @ignore_by_filters        = []
-      @ignore                   = IGNORE_DEFAULT.dup
-      @release_stages           = %w(production staging)
-      @notifier_version         = CrashLog::VERSION
-      @notifier_url             = 'https://github.com/ivanvanderbyl/crashlog'
-      @framework                = 'Standalone'
-      @stage                    = 'development'
-      @host                     = 'stdin.crashlog.io'
-      @port                     = nil
-      @scheme                   = 'https'
-      @endpoint                 = '/notify'
-      @announce                 = true
-      @announce_endpoint        = '/announce'
-      @context_lines            = 5
-      @framework                = 'Standalone'
+    def secure?
+      secure.eql?(true)
     end
 
+    # Release stages are stages which send exceptions
     def release_stage?
-      @release_stages.include?(stage)
+      release_stages.include?(stage)
     end
 
+    # Set the current stage
     def stage=(name)
-      @stage = name.downcase.strip
+      self[:stage] = name.downcase.strip
     end
 
     # Is this configuration valid for sending exceptions to CrashLog
     #
     # Returns true if all required keys are provided, otherwise false
     def valid?
-      [:api_key, :host, :port].all? do |key|
+      [:api_key, :project_id, :host, :port].all? do |key|
         !__send__(key).nil?
       end
     end
@@ -177,11 +175,8 @@ module CrashLog
       scheme == 'https'
     end
 
-    # Hash like accessor
-    def [](key)
-      if self.respond_to?(key)
-        self.__send__(key)
-      end
+    def notifier_version
+      CrashLog::VERSION
     end
 
   private
