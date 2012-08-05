@@ -13,8 +13,8 @@ module CrashLog
           controller = env['action_controller.instance']
 
           begin
-            env['crash_log.error_id'] = CrashLog.notify(exception,
-                                                        crash_log_context(controller, env))
+            env['crash_log.error_id'] = CrashLog.notify(exception) #,
+                                                        # crash_log_context(controller, env))
           rescue Exception => e
             # Fail silently, we don't want to be responsible for more issues
           end
