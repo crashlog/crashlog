@@ -3,7 +3,8 @@
 You should have something like this in config/initializers/crashlog.rb.
 
   CrashLog.configure do |config|
-    config.api_key = '1234567890abcdef'
+    config.api_key    = 'AhHusJhJHAjJajA'
+    config.project_id = 'ca9e5931-310f-4897-90c2-d0626f0f2a01'
   end
 
 (Please note that this configuration should be in a global configuration, and
