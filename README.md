@@ -1,6 +1,6 @@
 # CrashLog
 
-CrashLog is a exception tracking and notification service that gives you unparrelled
+CrashLog is a exception tracking and notification service that gives you unparalleled
 insight into issues occurring within your production applications, in realtime.
 
 ## Installation
