@@ -12,6 +12,7 @@ describe CrashLog::Reporter do
     :announce_endpoint => '/announce',
     :dry_run => false,
     :api_key => 'API_TOKEN',
+    :project_id => "PROJECT_ID",
     :http_read_timeout => 1,
     :http_open_timeout => 1
     }).tap do |config|
@@ -105,45 +106,46 @@ describe CrashLog::Reporter do
       subject.url.to_s.should == 'https://io.crashlog.io'
     end
 
-    it 'appends auth_token to request' do
+    it 'sends auth_token as request parameter'
+    it 'sends HMACAuth header'
 
-      # config.stub(:adapter).and_return(:test, &test_adapter)
+    #   # config.stub(:adapter).and_return(:test, &test_adapter)
 
-      # .and_return(:test).and_yield do |stub|
-      #   stub.post('/notify') do |env|
-      #     [200, {}, env[:request_headers]]
-      #   end
-      # end
+    #   # .and_return(:test).and_yield do |stub|
+    #   #   stub.post('/notify') do |env|
+    #   #     [200, {}, env[:request_headers]]
+    #   #   end
+    #   # end
 
-      # test_connection = Faraday.new(:url => subject.url) do |faraday|
-      #   faraday.adapter :test do |stub|
-      #     stub.post('/notify') do |env|
-      #       [200, {}, env[:request_headers]]
-      #     end
-      #   end
-      # end
+    #   # test_connection = Faraday.new(:url => subject.url) do |faraday|
+    #   #   faraday.adapter :test do |stub|
+    #   #     stub.post('/notify') do |env|
+    #   #       [200, {}, env[:request_headers]]
+    #   #     end
+    #   #   end
+    #   # end
 
-      #   #faraday.request   :url_encoded
-      #   faraday.request    :token_auth, "config.api_key"
-      #   #faraday.response  :logger
-      #   # faraday.token_auth config.api_key
-      #   faraday.options[:timeout] = 1
-      #   faraday.options[:open_timeout] = 1
-      #   faraday.ssl[:verify] = false
-      # end
+    #   #   #faraday.request   :url_encoded
+    #   #   faraday.request    :token_auth, "config.api_key"
+    #   #   #faraday.response  :logger
+    #   #   # faraday.token_auth config.api_key
+    #   #   faraday.options[:timeout] = 1
+    #   #   faraday.options[:open_timeout] = 1
+    #   #   faraday.ssl[:verify] = false
+    #   # end
 
-      # subject.stub(:connection).and_return(test_connection)
-      # subject.connection.adapter(:test) do |stub|
-      #   stub.post('/notify') do |env|
-      #     [200, {}, env[:request_headers]]
-      #   end
-      # end
+    #   # subject.stub(:connection).and_return(test_connection)
+    #   # subject.connection.adapter(:test) do |stub|
+    #   #   stub.post('/notify') do |env|
+    #   #     [200, {}, env[:request_headers]]
+    #   #   end
+    #   # end
 
-      subject.notify(payload).should be_true
+    #   subject.notify(payload).should be_true
 
-      subject.response.should == 'Token token=""'
+    #   subject.response.should == 'Token token=""'
 
-      stubs.verify_stubbed_calls
-    end
+    #   stubs.verify_stubbed_calls
+    # end
   end
 end
