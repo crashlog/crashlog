@@ -1,6 +1,5 @@
-require "faraday"
-require "uuid"
-require "json"
+require 'faraday'
+require 'faraday/auth-hmac'
 require 'uuid'
 require 'yajl'
 
@@ -69,20 +68,26 @@ module CrashLog
       config.dry_run == true
     end
 
-    # TODO: Defer this to another thread
     def post(endpoint, body)
-      connection.post(endpoint, body)
+      connection.post do |req|
+        req.url(endpoint)
+        req.sign! config.project_id, config.api_key
+        req.headers['Content-Type'] = 'application/json'
+        req.params[:auth_token] = config.api_key
+        req.body = body
+      end
     end
 
-  # private
+  private
 
     def connection
       @connection ||= begin
         Faraday.new(:url => url) do |faraday|
           faraday.adapter                 adapter
+          faraday.request                 :auth_hmac
           faraday.request                 :url_encoded
-          faraday.request                 :token_auth, config.api_key
-          faraday.response                :logger
+          # faraday.request                 :token_auth, config.api_key
+          # faraday.response                :logger
           faraday.options[:timeout]       = config.http_read_timeout
           faraday.options[:open_timeout]  = config.http_open_timeout
           faraday.ssl[:verify]            = false
