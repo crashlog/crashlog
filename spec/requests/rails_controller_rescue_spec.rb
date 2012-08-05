@@ -16,7 +16,11 @@ describe 'Rescue from within a Rails 3.x controller' do
   it 'should intercept error and notify crashlog' do
     CrashLog.should_receive(:notify).with(kind_of(RuntimeError), kind_of(Hash)).once
 
-    get '/broken'
+    begin
+      get '/broken'
+    rescue
+    end
+
     last_response.status.should == 500
     last_response.body.should match /We're sorry, but something went wrong/
   end
@@ -31,7 +35,10 @@ describe 'Rescue from within a Rails 3.x controller' do
     ActionDispatch::DebugExceptions.any_instance.stub(:logger).and_return(logger)
     logger.should_receive(:fatal).once
 
-    get '/broken'
+    begin
+      get '/broken'
+    rescue
+    end
     last_response.status.should == 500
   end
 
