@@ -161,7 +161,7 @@ DEPENDENCIES
   json_spec
   pg
   rack-test!
-  rails
-  rake
+  rails (= 3.2.7)
+  rake (~> 0.9.2)
   rspec-rails
   uuid
