@@ -39,6 +39,17 @@ module CrashLog
         to_s == other.to_s
       end
 
+      def apply_filter(filter)
+        result = filter.call(file)
+        if result.nil?
+          # Filter returned nil, discard this line
+          @_mark_for_deletion = true
+        else
+          # Filter manipulated parsed file name only
+          self.file = result
+        end
+      end
+
       def context_line
         Backtrace::LineCache::getline(file, number)
       end
@@ -79,6 +90,10 @@ module CrashLog
             hash[:post_context] = post_context
           end
         end
+      end
+
+      def marked_for_deletion?
+        @_mark_for_deletion == true
       end
 
     private

@@ -10,15 +10,20 @@ module CrashLog
     def self.parse(ruby_backtrace, opts = {})
       ruby_lines = split_multiline_backtrace(ruby_backtrace)
 
-      filters = opts[:filters] || []
-      filtered_lines = ruby_lines.to_a.map do |line|
-        filters.inject(line) do |line, proc|
-          proc.call(line)
-        end
-      end.compact
-
-      lines = filtered_lines.collect do |unparsed_line|
+      lines = ruby_lines.to_a.map do |unparsed_line|
         Line.parse(unparsed_line)
+      end
+
+      filters = opts[:filters] || []
+
+      lines.each do |line|
+        filters.each do |filter|
+          line.apply_filter(filter)
+        end
+      end
+
+      lines = lines.reject do |line|
+        line.marked_for_deletion?
       end
 
       instance = new(lines)
