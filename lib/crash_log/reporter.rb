@@ -36,11 +36,11 @@ module CrashLog
       return if dry_run?
       return "Unknown application" unless announce_endpoint
 
-      response = post('/announce', JSON.dump(identification_hash))
-      JSON.load(response.body).symbolize_keys[:application]
+      response = post(config.announce_endpoint, JSON.dump(identification_hash))
+      JSON.load(response.body).symbolize_keys.fetch(:application, 'Default')
     rescue => e
       # We only want to log our mess when testing
-      log_exception(e) if respond_to?(:should)
+      log_exception(e) # if respond_to?(:should)
       error("Failed to announce application launch")
       nil
     end
