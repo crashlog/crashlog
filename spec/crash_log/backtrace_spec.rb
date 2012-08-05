@@ -37,22 +37,22 @@ describe CrashLog::Backtrace do
     it 'captures pre_context' do
       line = CrashLog::Backtrace.parse(raised_error.backtrace).lines.first
       line.pre_context.should == [
-        "require 'spec_helper'\n",
-        "\n",
-        "describe CrashLog::Backtrace do\n",
-        "  let(:raised_error) do\n",
-        "    begin\n"
+        "require \\'spec_helper\\'",
+        "",
+        "describe CrashLog::Backtrace do",
+        "  let(:raised_error) do",
+        "    begin"
       ]
     end
 
     it 'captures pre_context' do
       line = CrashLog::Backtrace.parse(raised_error.backtrace).lines.first
       line.post_context.should == [
-        "    rescue RuntimeError => e\n",
-        "      e\n",
-        "    end\n",
-        "  end\n",
-        "\n"
+        "    rescue RuntimeError => e",
+        "      e",
+        "    end",
+        "  end",
+        ""
       ]
     end
   end
@@ -60,8 +60,8 @@ describe CrashLog::Backtrace do
   describe 'filters' do
     it 'should replace project root with [PROJECT_ROOT]' do
       CrashLog.configuration.project_root = File.expand_path('../../', __FILE__)
-      filter = CrashLog::Configuration::DEFAULT_BACKTRACE_FILTERS
-      backtrace = CrashLog::Backtrace.parse(raised_error.backtrace, :filters => filter)
+      filters = CrashLog.configuration.backtrace_filters
+      backtrace = CrashLog::Backtrace.parse(raised_error.backtrace, :filters => filters)
 
       backtrace.lines.first.file.should match /\[PROJECT_ROOT\]/
       backtrace.lines.first.file.should == '[PROJECT_ROOT]/crash_log/backtrace_spec.rb'
