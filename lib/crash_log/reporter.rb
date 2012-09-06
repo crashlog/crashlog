@@ -76,7 +76,6 @@ module CrashLog
     def post(endpoint, body)
       connection.post do |req|
         req.url(endpoint)
-        # req.sign!(config.project_id, config.api_key)
         req.headers['Content-Type'] = 'application/json'
         req.body = body
       end
@@ -87,7 +86,7 @@ module CrashLog
     def connection
       @connection ||= begin
         Faraday.new(:url => url) do |faraday|
-          faraday.request :hmac_authentication, config.project_id, config.api_key, {:service_id => config.service_name}
+          faraday.request :hmac_authentication, config.api_key, config.secret, {:service_id => config.service_name}
           faraday.adapter(adapter)
           faraday.request :url_encoded
           # faraday.request                 :token_auth, config.api_key

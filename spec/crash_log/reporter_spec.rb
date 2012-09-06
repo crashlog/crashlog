@@ -5,7 +5,7 @@ describe CrashLog::Reporter do
 
   let(:config) {
     CrashLog::Configuration.new.tap do |config|
-      config.project_id = 'PROJECT_ID'
+      config.secret = 'SECRET'
       config.api_key = 'API_KEY'
       # config.adapter = test_adapter
       config.scheme = 'http'

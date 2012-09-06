@@ -39,7 +39,7 @@ module CrashLog
       #
       # Get this from your projects configuration page within http://CrashLog.io
       :api_key => nil,
-      :project_id => nil,
+      :secret => nil,
 
       # Stages (environments) which we consider to be in a production environment
       # and thus you want to be sent notifications for.
@@ -159,7 +159,7 @@ module CrashLog
     #
     # Returns true if all required keys are provided, otherwise false
     def valid?
-      [:api_key, :project_id, :host, :port].all? do |key|
+      [:api_key, :secret, :host, :port].all? do |key|
         !__send__(key).nil?
       end
     end
