@@ -111,7 +111,10 @@ module CrashLog
   private
 
     def send_notification(exception, context = {})
-      build_payload(exception, context).deliver! if live?
+      if live?
+        build_payload(exception, context).deliver!
+        info("Sent exception to CrashLog")
+      end
     end
 
     def build_payload(exception, context = {})
