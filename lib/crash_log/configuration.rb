@@ -39,7 +39,7 @@ module CrashLog
       #
       # Get this from your projects configuration page within http://CrashLog.io
       :api_key => nil,
-      :project_id => nil,
+      :secret => nil,
 
       # Stages (environments) which we consider to be in a production environment
       # and thus you want to be sent notifications for.
@@ -66,16 +66,13 @@ module CrashLog
       :host => 'stdin.crashlog.io',
 
       # Port to use for http connections. 80 or 443 by default.
-      :port => 443,
-
-      # Shortcut to use secure connection
-      :secure => true,
+      # :port => 443,
 
       # HTTP transfer scheme, default: https
-      :scheme => 'http',
+      :scheme => 'https',
 
-      # API endpoint to context for notifications. Default /notify
-      :endpoint => '/notify',
+      # API endpoint to context for notifications. Default /events
+      :endpoint => '/events',
 
       # The faraday adapter to use to make the connection.
       #
@@ -126,7 +123,11 @@ module CrashLog
 
       :backtrace_filters => DEFAULT_BACKTRACE_FILTERS.dup,
 
-      :params_filters => DEFAULT_PARAMS_FILTERS.dup
+      :params_filters => DEFAULT_PARAMS_FILTERS.dup,
+
+      # Internal
+      # Do not change unless you know what this does.
+      :service_name => 'CrashLog'
 
     def root
       fetch(:project_root)
@@ -137,15 +138,11 @@ module CrashLog
     end
 
     def port
-      if port = fetch(:port)
-        port
+      if secure?
+        443
       else
-        secure? ? 443 : 80
+        fetch(:port, 80)
       end
-    end
-
-    def secure?
-      secure.eql?(true)
     end
 
     # Release stages are stages which send exceptions
@@ -162,7 +159,7 @@ module CrashLog
     #
     # Returns true if all required keys are provided, otherwise false
     def valid?
-      [:api_key, :project_id, :host, :port].all? do |key|
+      [:api_key, :secret, :host, :port].all? do |key|
         !__send__(key).nil?
       end
     end
@@ -172,7 +169,7 @@ module CrashLog
     end
 
     def secure?
-      scheme == 'https'
+      fetch(:scheme, 'https') == 'https'
     end
 
     def notifier_version

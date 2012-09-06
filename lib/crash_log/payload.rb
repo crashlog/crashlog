@@ -22,16 +22,16 @@ module CrashLog
 
     attr_reader :config, :backtrace_filters
 
-    def initialize(exception, config)
+    def initialize(event_data, config)
       @config = config || {}
-      @exception_object = exception
+      @event_data = event_data
       @context = {}
-      @session = {}
       @environment = {}
       @backtrace_filters = config[:backtrace_filters] || []
 
-      # Actually serialize the exception for transport
-      @exception = serialize_exception(exception_object)
+      # Actually serialize the exception/event hash for transport
+      @event = serialize_event(event_data)
+
       # add_environment_data(:system => SystemInformation.to_hash)
     end
 
@@ -39,7 +39,7 @@ module CrashLog
       Reporter.new(config).notify(self.body)
     end
 
-    attr_reader :exception, :exception_object, :environment, :context, :session
+    attr_reader :event, :backtrace, :exception_object, :environment, :context
 
     def body
       renderer.render
@@ -58,7 +58,7 @@ module CrashLog
     end
 
     def add_session_data(data)
-      @session.merge!(data) if data.respond_to?(:keys)
+      (@environment[:session] ||= {}).merge!(data) if data.is_a?(Hash)
     end
 
     def add_environment_data(data)
@@ -71,7 +71,7 @@ module CrashLog
     # more seriously and use this figure internally to detect processing time
     # irregularities.
     #
-    # Returns UNIX timestamp integer.
+    # Returns UNIX UTC timestamp integer.
     def timestamp
       Time.now.utc.to_i
     end
@@ -91,6 +91,28 @@ module CrashLog
 
   private
 
+    def serialize_event(event_data)
+      if event_data.is_a?(Exception)
+        @backtrace = build_backtrace(event_data)
+        serialize_exception(event_data)
+
+      elsif event_data.is_a?(Hash)
+        event_data.merge(:timestamp => timestamp)
+
+      elsif event_data.respond_to?(:message) && event_data.respond_to?(:type)
+        ducktype_event(event_data)
+
+      end
+    end
+
+    def ducktype_event(event_data)
+      {}.tap do |response|
+        response[:timestamp] = timestamp
+        response[:type] = event_data.type
+        response[:message] = event_data.message
+      end
+    end
+
     def serialize_exception(exception)
       exception = unwrap_exception(exception)
       # opts = opts.merge(:exception => exception) if exception.is_a?(Exception)
@@ -99,8 +121,7 @@ module CrashLog
       {}.tap do |response|
         response[:timestamp] = timestamp
         response[:message] = exception.message
-        response[:class_name] = error_class(exception)
-        response[:backtrace] = build_backtrace(exception)
+        response[:type] = error_class(exception)
       end
     end
 

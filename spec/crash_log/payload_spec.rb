@@ -34,13 +34,13 @@ describe CrashLog::Payload do
 
   describe '#add_session_data' do
     it 'is empty by default' do
-      subject.session.should be_empty
+      subject.environment[:session].should be_nil
     end
 
     it 'allows merging in data' do
       data = {:path => '/problematic/path'}
       subject.add_session_data(data)
-      subject.session.should == data
+      subject.environment[:session].should == data
     end
 
     it 'allows adding more data' do
@@ -49,8 +49,8 @@ describe CrashLog::Payload do
       subject.add_session_data(data_1)
       subject.add_session_data(data_2)
 
-      subject.session[:path].should == data_1[:path]
-      subject.session[:count].should == data_2[:count]
+      subject.environment[:session][:path].should == data_1[:path]
+      subject.environment[:session][:count].should == data_2[:count]
     end
   end
 
@@ -75,37 +75,37 @@ describe CrashLog::Payload do
     describe 'exception' do
 
       it 'has class_name' do
-        subject.body.to_json.should have_json_path('exception/class_name')
+        subject.body.to_json.should have_json_path('event/type')
       end
 
       it 'has message' do
-        subject.body.to_json.should have_json_path('exception/message')
+        subject.body.to_json.should have_json_path('event/message')
       end
 
       describe 'backtrace' do
         it 'has line number' do
-          subject.body.to_json.should have_json_path('exception/backtrace/0/number')
+          subject.body.to_json.should have_json_path('backtrace/0/number')
         end
 
         it 'has integer as line number' do
-          subject.body.to_json.should have_json_type(Integer).at_path('exception/backtrace/0/number')
+          subject.body.to_json.should have_json_type(Integer).at_path('backtrace/0/number')
         end
 
         it 'has filename' do
-          subject.body.to_json.should have_json_path('exception/backtrace/0/file')
+          subject.body.to_json.should have_json_path('backtrace/0/file')
         end
 
         it 'has method' do
-          subject.body.to_json.should have_json_path('exception/backtrace/0/method')
+          subject.body.to_json.should have_json_path('backtrace/0/method')
         end
       end
 
       it 'has backtrace' do
-        subject.body.to_json.should have_json_path('exception/backtrace/0')
+        subject.body.to_json.should have_json_path('backtrace/0')
       end
 
       it 'has timestamp' do
-        subject.body.to_json.should have_json_path('exception/timestamp')
+        subject.body.to_json.should have_json_path('event/timestamp')
       end
     end
 

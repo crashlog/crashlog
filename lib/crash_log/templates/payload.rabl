@@ -1,6 +1,7 @@
 object @payload
 
 attribute :notifier
-attribute :exception
+attribute :event
+attribute :backtrace
 attribute :environment
 attribute :context

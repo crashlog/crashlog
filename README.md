@@ -1,6 +1,7 @@
-# Crashlog
+# CrashLog
 
-TODO: Write a gem description
+CrashLog is a exception tracking and notification service that gives you unparalleled
+insight into issues occurring within your production applications, in realtime.
 
 ## Installation
 
@@ -16,9 +17,14 @@ Or install it yourself as:
 
     $ gem install crashlog
 
-## Usage
+## Configuration
 
-TODO: Write usage instructions here
+```ruby
+CrashLog.configuration do |config|
+  config.api_key = "Your API Key"
+  config.project_id = "Project Project ID"
+end
+```
 
 ## Contributing
 
@@ -27,3 +33,7 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Contributors
+
+- Ivan Vanderbyl

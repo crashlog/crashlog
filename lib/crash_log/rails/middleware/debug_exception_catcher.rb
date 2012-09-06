@@ -12,17 +12,17 @@ module CrashLog
         def render_exception_with_crash_log(env, exception)
           controller = env['action_controller.instance']
 
-          begin
-            env['crash_log.error_id'] = CrashLog.notify(exception) #,
-                                                        # crash_log_context(controller, env))
-          rescue Exception => e
-            # Fail silently, we don't want to be responsible for more issues
-          end
+          env['crash_log.error_id'] = CrashLog.notify(exception) #,
+                                                      # crash_log_context(controller, env))
 
           if defined?(controller.rescue_action_in_public_without_crash_log)
             controller.rescue_action_in_public_without_crash_log(exception)
           end
 
+        rescue Exception => e
+          # If it breaks here there is possibly something wrong with us, so
+          # instead of crashing again, we'll just pass it on.
+        ensure
           render_exception_without_crash_log(env, exception)
         end
 

@@ -68,7 +68,7 @@ module CrashLog
       if application
         info("Initialized and ready to handle exceptions for #{application}")
       else
-        error("Failed to report for duty, it is possible we are having issues or your application is not configured correctly")
+        error("Failed to report for duty, your application failed to authenticate correctly with stdin.crashlog.io")
       end
     end
 
@@ -111,7 +111,10 @@ module CrashLog
   private
 
     def send_notification(exception, context = {})
-      build_payload(exception, context).deliver! if live?
+      if live?
+        build_payload(exception, context).deliver!
+        info("Sent exception to CrashLog")
+      end
     end
 
     def build_payload(exception, context = {})
