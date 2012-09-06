@@ -39,7 +39,7 @@ module CrashLog
       response = post(config.announce_endpoint, JSON.dump(identification_hash))
       if response.status == 201
         info(JSON.load(response.body).inspect)
-        JSON.load(response.body).symbolize_keys.fetch(:application, 'Default')
+        JSON.load(response.body).symbolize_keys.fetch(:application_name, 'Default')
       else
         false
       end
