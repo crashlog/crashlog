@@ -1,5 +1,7 @@
 # CrashLog
 
+[![Build Status](https://secure.travis-ci.org/crashlog/crashlog.png)](http://travis-ci.org/crashlog/crashlog)
+
 CrashLog is a exception tracking and notification service that gives you unparalleled
 insight into issues occurring within your production applications, in realtime.
 
