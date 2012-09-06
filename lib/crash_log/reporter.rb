@@ -21,14 +21,14 @@ module CrashLog
     end
 
     def notify(payload)
-      #return if dry_run?
-      #MultiJson.use(:yajl)
+      return if dry_run?
+      MultiJson.use(:yajl)
       response = post(endpoint, MultiJson.encode({:payload => payload}))
       @response = response
       report_result(response.body)
       response.success?
     rescue => e
-      log_exception e
+      # log_exception e
       error("Sending exception failed due to a connectivity issue")
     end
 
@@ -38,13 +38,14 @@ module CrashLog
 
       response = post(config.announce_endpoint, JSON.dump(identification_hash))
       if response.status == 201
+        info(JSON.load(response.body).inspect)
         JSON.load(response.body).symbolize_keys.fetch(:application, 'Default')
       else
         false
       end
     rescue => e
       # We only want to log our mess when testing
-      log_exception(e) # if respond_to?(:should)
+      # log_exception(e) # if respond_to?(:should)
       error("Failed to announce application launch")
       nil
     end
