@@ -52,6 +52,7 @@ module CrashLog
 
     def report_result(body)
       @result = JSON.load(body).symbolize_keys
+      info @result.inspect
     end
 
     def url
