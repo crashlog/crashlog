@@ -21,14 +21,14 @@ module CrashLog
     end
 
     def notify(payload)
-      return if dry_run?
+      # return if dry_run?
       MultiJson.use(:yajl)
       response = post(endpoint, MultiJson.encode({:payload => payload}))
       @response = response
       report_result(response.body)
       response.success?
     rescue => e
-      # log_exception e
+      log_exception e
       error("Sending exception failed due to a connectivity issue")
     end
 

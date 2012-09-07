@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    crashlog (0.0.1)
+    crashlog (0.0.2)
       activesupport
       crashlog-auth-hmac (~> 1.1.5)
       faraday
@@ -86,7 +86,7 @@ GEM
     multipart-post (1.1.5)
     pg (0.14.0)
     polyglot (0.3.3)
-    rabl (0.7.0)
+    rabl (0.7.1)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
     rack (1.4.1)
