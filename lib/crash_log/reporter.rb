@@ -30,6 +30,7 @@ module CrashLog
     rescue => e
       log_exception e
       error("Sending exception failed due to a connectivity issue")
+      nil
     end
 
     def announce
@@ -52,7 +53,6 @@ module CrashLog
 
     def report_result(body)
       @result = JSON.load(body).symbolize_keys
-      info @result.inspect
     end
 
     def url

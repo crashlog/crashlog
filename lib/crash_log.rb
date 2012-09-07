@@ -53,7 +53,12 @@ module CrashLog
     #
     # Returns true if successful, otherwise false
     def notify(exception, context = {})
-      send_notification(exception, context)
+      send_notification(exception, context).tap do |notification|
+        if notification
+          info "Exception sent to CrashLog.io"
+          info "Exception URL: http://crashlog.io/locate/#{notification[:location_id]}" if notification.has_key?(:location_id)
+        end
+      end
     end
 
     # Sends the notice unless it is one of the default ignored exceptions.
@@ -113,7 +118,6 @@ module CrashLog
     def send_notification(exception, context = {})
       if live?
         build_payload(exception, context).deliver!
-        info("Sent exception to CrashLog")
       end
     end
 
