@@ -91,10 +91,15 @@ describe CrashLog::Reporter do
     end
 
     it 'authenticates request with HMAC' do
+      time_travel_to "2012-08-01 00:00:00 UTC"
+
       subject.notify(payload).should be_true
 
       subject.response.env[:request_headers]['Authorization'].should ==
-        CrashLog::AuthHMAC.new({}, {:service_id => 'CrashLog'}).authorization(subject.response.env, 'API_KEY', 'SECRET')
+        CrashLog::AuthHMAC.new({}, {
+        :service_id => 'CrashLog',
+        :signature => Faraday::Request::HMACAuthentication::CanonicalString
+      }).authorization(subject.response.env, 'API_KEY', 'SECRET')
       stubs.verify_stubbed_calls
     end
 
