@@ -12,4 +12,3 @@ desc "Run all examples"
 RSpec::Core::RakeTask.new
 
 task :default => :spec
-

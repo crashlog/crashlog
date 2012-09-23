@@ -55,8 +55,11 @@ module CrashLog
     def notify(exception, context = {})
       send_notification(exception, context).tap do |notification|
         if notification
-          info "Exception sent to CrashLog.io"
-          info "Exception URL: http://crashlog.io/locate/#{notification[:location_id]}" if notification.has_key?(:location_id)
+          info "Event sent to CrashLog.io"
+          info "Event URL: http://crashlog.io/locate/#{notification[:location_id]}" if notification.has_key?(:location_id)
+        else
+          error "Failed to send event to CrashLog.io"
+          log_exception(exception)
         end
       end
     end
@@ -71,7 +74,7 @@ module CrashLog
       application = CrashLog::Reporter.new(configuration).announce
 
       if application
-        info("Initialized and ready to handle exceptions for #{application}")
+        info("Configured correctly and ready to handle exceptions for '#{application}'")
       else
         error("Failed to report for duty, your application failed to authenticate correctly with stdin.crashlog.io")
       end
@@ -79,12 +82,15 @@ module CrashLog
 
     # Configure the gem to send notifications, at the very least an api_key is
     # required.
-    def configure
-      yield(configuration) if block_given?
-      if configuration.valid?
-        report_for_duty!
-      else
-        error('Not configured correctly')
+    def configure(&block)
+      if block_given?
+        yield(configuration)
+
+        if configuration.valid?
+          report_for_duty!
+        elsif !configuration.invalid_keys.include?(:api_key)
+          error("Not configured correctly. Missing the following keys: #{configuration.invalid_keys.join(', ')}")
+        end
       end
     end
 

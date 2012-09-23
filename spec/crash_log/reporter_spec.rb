@@ -44,7 +44,7 @@ describe CrashLog::Reporter do
   end
 
   let(:announce_response) do
-    {:application => "CrashLog Test"}
+    {:application_name=> "CrashLog Test"}
   end
 
   let(:positive_response_json) { positive_response.to_json }
@@ -66,7 +66,7 @@ describe CrashLog::Reporter do
     before do
       test_connection = Faraday.new(:url => subject.url) do |builder|
         builder.adapter :test, stubs
-        builder.request :hmac_authentication, 'PROJECT_ID', 'SECRET', {:service_id => 'CrashLog'}
+        builder.request :hmac_authentication, 'API_KEY', 'SECRET', {:service_id => 'CrashLog'}
         builder.request :url_encoded
       end
 
@@ -84,14 +84,17 @@ describe CrashLog::Reporter do
     end
 
     it 'makes a post request' do
-      subject.send(:connection).should_receive(:post).once
+      response = double("Post", success?: true)
+      response.stub(:body).and_return(positive_response_json)
+      subject.send(:connection).should_receive(:post).once.and_return(response)
       subject.notify(payload)
     end
 
     it 'authenticates request with HMAC' do
       subject.notify(payload).should be_true
+
       subject.response.env[:request_headers]['Authorization'].should ==
-        CrashLog::AuthHMAC.new({}, {:service_id => 'CrashLog'}).authorization(subject.response.env, 'PROJECT_ID', 'SECRET')
+        CrashLog::AuthHMAC.new({}, {:service_id => 'CrashLog'}).authorization(subject.response.env, 'API_KEY', 'SECRET')
       stubs.verify_stubbed_calls
     end
 

@@ -127,7 +127,9 @@ module CrashLog
 
       # Internal
       # Do not change unless you know what this does.
-      :service_name => 'CrashLog'
+      :service_name => 'CrashLog',
+
+      :json_parser => :yajl
 
     def root
       fetch(:project_root)
@@ -159,9 +161,13 @@ module CrashLog
     #
     # Returns true if all required keys are provided, otherwise false
     def valid?
-      [:api_key, :secret, :host, :port].all? do |key|
-        !__send__(key).nil?
-      end
+      invalid_keys.empty?
+    end
+
+    def invalid_keys
+      [:api_key, :secret, :host, :port].map do |key|
+        key if send(key).nil?
+      end.compact
     end
 
     def ignored?(exception)

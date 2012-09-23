@@ -7,9 +7,9 @@ module CrashLog
 
     config.after_initialize do
       CrashLog.configure do |config|
-        config.logger           ||= ::Rails.logger
-        config.stage            ||= ::Rails.env
-        config.project_root     ||= ::Rails.root
+        config.logger           = ::Rails.logger
+        config.stage            = ::Rails.env
+        config.project_root     = ::Rails.root
         config.framework        = "Rails: #{::Rails::VERSION::STRING}"
       end
 

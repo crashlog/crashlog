@@ -26,10 +26,6 @@ module Faraday
           request[:body]
         end
 
-        # def request_path(request)
-        #   URI.parse(request[:url]).path
-        # end
-
         def request_path(request)
           URI.parse(request[:url].to_s).path
         end
@@ -53,8 +49,7 @@ module Faraday
 
       # Public
       def call(env)
-        env[:request_headers][KEY] ||= hmac_auth_header(env).to_s #if sign_request?
-        puts env[:request_headers]
+        env[:request_headers][KEY] ||= hmac_auth_header(env).to_s if sign_request?
         @app.call(env)
       end
 

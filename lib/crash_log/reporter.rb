@@ -1,6 +1,7 @@
 require 'faraday'
 require 'faraday/request/hmac_authentication'
 require 'uuid'
+require 'multi_json'
 require 'yajl'
 
 module CrashLog
@@ -18,11 +19,12 @@ module CrashLog
       @endpoint   = config.endpoint
       @announce_endpoint = config.announce == true ?
                            config.announce_endpoint : nil
+      MultiJson.use(config.json_parser || :yajl)
     end
 
     def notify(payload)
-      # return if dry_run?
-      MultiJson.use(:yajl)
+      return if dry_run?
+
       response = post(endpoint, MultiJson.encode({:payload => payload}))
       @response = response
       report_result(response.body)
@@ -39,14 +41,11 @@ module CrashLog
 
       response = post(config.announce_endpoint, JSON.dump(identification_hash))
       if response.status == 201
-        info(JSON.load(response.body).inspect)
         JSON.load(response.body).symbolize_keys.fetch(:application_name, 'Default')
       else
-        false
+        nil
       end
     rescue => e
-      # We only want to log our mess when testing
-      # log_exception(e) # if respond_to?(:should)
       error("Failed to announce application launch")
       nil
     end
@@ -56,7 +55,7 @@ module CrashLog
     end
 
     def url
-      URI.parse("#{scheme}://#{host}:#{port}")
+      URI.parse("#{scheme}://#{host}:#{port}").to_s
     end
 
     def identification_hash
@@ -64,10 +63,6 @@ module CrashLog
         :hostname => SystemInformation.hostname,
         :timestamp => Time.now.utc.to_i
       }
-    end
-
-    def print_result
-
     end
 
     def dry_run?
@@ -81,8 +76,6 @@ module CrashLog
         req.body = body
       end
     end
-
-#  private
 
     def connection
       @connection ||= begin

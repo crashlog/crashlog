@@ -3,8 +3,8 @@
 You should have something like this in config/initializers/crashlog.rb.
 
   CrashLog.configure do |config|
-    config.api_key    = 'AhHusJhJHAjJajA'
-    config.project_id = 'ca9e5931-310f-4897-90c2-d0626f0f2a01'
+    config.api_key    = 'API_KEY'
+    config.secret     = 'SECRET'
   end
 
 (Please note that this configuration should be in a global configuration, and
@@ -19,4 +19,3 @@ this rake task (from RAILS_ROOT):
 
 If everything is configured properly, that task will send a notice to CrashLog
 which will be visible immediately.
-
