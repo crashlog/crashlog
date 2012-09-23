@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+require 'logger'
+require 'fileutils'
+
+RAILS_ENV = "production"
+RAILS_ROOT = FileUtils.pwd
+RAILS_DEFAULT_LOGGER = Logger.new(STDOUT)
+
+$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'crashlog'
+require File.expand_path('../../rails/init', __FILE__)
+
+fail "Please supply an API Key as the first argument" if ARGV.empty?
+
+host = ARGV[3]
+host ||= "stdin.crashlog.io"
+
+secure = (ARGV[2] == "secure")
+
+exception = begin
+              raise "Testing crashlog notifier with secure = #{secure}. If you can see this, it works."
+            rescue => foo
+              foo
+            end
+
+CrashLog.configure do |config|
+  config.api_key = ARGV[0]
+  config.secret  = ARGV[1]
+  config.scheme  = secure ? 'https' : 'http'
+  config.host    = host
+  config.service_name = 'Staging'
+end
+
+puts "Configuration:"
+CrashLog.configuration.each do |key, value|
+  puts sprintf("%25s: %s", key.to_s, value.inspect.slice(0, 55))
+end
+puts "Sending #{secure ? "" : "in"}secure notification to project with key #{ARGV.first}"
+CrashLog.notify(exception)
