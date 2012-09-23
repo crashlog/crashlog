@@ -149,5 +149,15 @@ describe CrashLog do
 
       CrashLog.ignored?(ActiveRecord::RecordNotFound).should be_true
     end
+
+    it 'ignores ActionController::RoutingError' do
+      unless defined?(ActionController)
+        module ActionController
+          class RoutingError < RuntimeError
+          end
+        end
+      end
+      CrashLog.ignored?(ActionController::RoutingError).should be_true
+    end
   end
 end
