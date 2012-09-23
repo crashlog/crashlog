@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    crashlog (0.0.2)
+    crashlog (1.0.0.rc1)
       activesupport
       crashlog-auth-hmac (~> 1.1.5)
       faraday

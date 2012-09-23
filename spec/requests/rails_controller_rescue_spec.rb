@@ -5,6 +5,10 @@ describe 'Rescue from within a Rails 3.x controller' do
   include RSpec::Rails::RequestExampleGroup
   include Rack::Test::Methods
 
+  it 'is testing tails 3.x' do
+    Rails.version.should =~ /^3\./
+  end
+
   describe 'dummy app' do
     it 'should response nicely to index' do
       get '/'
