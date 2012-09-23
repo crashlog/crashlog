@@ -46,7 +46,7 @@ module CrashLog
       :release_stages => ['staging', 'production'],
 
       # The name of the current stage
-      :stage => 'development',
+      :stage => 'production',
 
       # Project Root directory
       :project_root => nil,
@@ -147,7 +147,7 @@ module CrashLog
 
     # Release stages are stages which send exceptions
     def release_stage?
-      release_stages.include?(stage)
+      Array(release_stages).include?(stage)
     end
 
     # Set the current stage
