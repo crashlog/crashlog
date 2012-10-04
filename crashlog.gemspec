@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency("activesupport")
   gem.add_dependency("faraday")
-  gem.add_dependency("crashlog-auth-hmac", '~> 1.1.5')
+  gem.add_dependency("crashlog-auth-hmac", '~> 1.1.6')
   gem.add_dependency("yajl-ruby")
   gem.add_dependency("rabl", '>= 0.6.14')
   gem.add_dependency("uuid")
