@@ -1,4 +1,5 @@
 language: ruby
+script: bundle exec rake spec
 rvm:
   - 1.9.3
   - 1.9.2
@@ -9,3 +10,7 @@ rvm:
   - rbx-19mode
   - jruby-head
   - ree
+branches:
+  only:
+    - master
+    - develop
