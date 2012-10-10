@@ -20,13 +20,13 @@ describe 'Rescue from within a Rails 3.x controller' do
   it 'should intercept error and notify crashlog' do
     CrashLog.should_receive(:notify_or_ignore).with(kind_of(RuntimeError)).once
 
-    begin
+    # begin
       get '/broken'
       last_response.status.should == 500
       last_response.body.should match /We're sorry, but something went wrong/
-    rescue => e
-      nil
-    end
+    # rescue => e
+      # nil
+    # end
 
   end
 
