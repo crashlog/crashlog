@@ -6,7 +6,7 @@ describe 'Rescue from within a Rails 3.x controller' do
   include Rack::Test::Methods
 
   it 'is testing tails 3.x' do
-    Rails.version.should =~ /^3\./
+    Rails.version.should =~ /^3\.2\./
   end
 
   describe 'dummy app' do
