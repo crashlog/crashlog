@@ -2,5 +2,6 @@
 require 'crash_log/rails'
 <% end -%>
 CrashLog.configure do |config|
-  config.api_key = <%= api_key_expression %>
+  config.api_key  = <%= api_key_expression %>
+  config.secret   = <%= secret_expression %>
 end

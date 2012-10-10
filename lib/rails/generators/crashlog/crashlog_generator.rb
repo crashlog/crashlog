@@ -3,6 +3,7 @@ require 'rails/generators'
 class CrashlogGenerator < Rails::Generators::Base
 
   class_option :api_key, :aliases => "-k", :type => :string, :desc => "Your CrashLog API key"
+  class_option :secret, :aliases => "-s", :type => :string, :desc => "Your CrashLog API secret"
 
   def self.source_root
     @_crashlog_source_root ||= File.expand_path("../../../../../generators/crashlog/templates", __FILE__)
@@ -17,14 +18,20 @@ class CrashlogGenerator < Rails::Generators::Base
   private
 
   def ensure_api_key_was_configured
-    if !options[:api_key] && !api_key_configured?
-      puts "Must pass --api-key or create config/initializers/crashlog.rb"
+    if !options[:api_key] &&
+       !options[:secret] &&
+       !api_key_configured?
+      puts "Must pass --api-key and --secret or create config/initializers/crashlog.rb"
       exit
     end
   end
 
   def api_key_expression
     "'#{options[:api_key]}'"
+  end
+
+  def secret_expression
+    "'#{options[:secret]}'"
   end
 
   def generate_initializer
