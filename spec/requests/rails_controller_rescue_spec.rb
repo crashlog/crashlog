@@ -24,7 +24,8 @@ describe 'Rescue from within a Rails 3.x controller' do
       get '/broken'
       last_response.status.should == 500
       last_response.body.should match /We're sorry, but something went wrong/
-    rescue
+    rescue => e
+      nil
     end
 
   end
