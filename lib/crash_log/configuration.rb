@@ -2,6 +2,7 @@ require 'hashr'
 module CrashLog
   class Configuration < Hashr
     DEFAULT_PARAMS_FILTERS = %w(password password_confirmation).freeze
+    DEFAULT_USER_ATTRIBUTES = %w(id name full_name username email created_at).freeze
 
     DEFAULT_BACKTRACE_FILTERS = [
       lambda { |line|
@@ -124,6 +125,8 @@ module CrashLog
       :backtrace_filters => DEFAULT_BACKTRACE_FILTERS.dup,
 
       :params_filters => DEFAULT_PARAMS_FILTERS.dup,
+
+      :user_attributes => DEFAULT_USER_ATTRIBUTES.dup,
 
       # Internal
       # Do not change unless you know what this does.

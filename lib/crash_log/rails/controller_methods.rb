@@ -8,7 +8,8 @@ module CrashLog
           :controller       => params[:controller],
           :action           => params[:action],
           :url              => crash_log_request_url,
-          :cgi_data         => crash_log_filter_if_filtering(request.env)
+          :cgi_data         => crash_log_filter_if_filtering(request.env),
+          :current_user     => crash_log_current_user
         }
       end
 
@@ -38,6 +39,17 @@ module CrashLog
 
         url << request.fullpath
         url
+      end
+
+      def crash_log_current_user
+        user = begin current_user rescue current_member end
+        user.attributes.select do |k, v|
+          CrashLog.configuration.
+            user_attributes.map(&:to_sym).
+            include?(k.to_sym) unless v.blank?
+        end.symbolize_keys
+      rescue NoMethodError, NameError
+        {}
       end
 
     end
