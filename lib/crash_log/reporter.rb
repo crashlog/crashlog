@@ -72,7 +72,7 @@ module CrashLog
     def post(endpoint, body)
       connection.post do |req|
         req.url(endpoint)
-        req.headers['Content-Type'] = 'application/json'
+        req.headers['Content-Type'] = 'application/json; charset=UTF-8'
         req.body = body
       end
     end
