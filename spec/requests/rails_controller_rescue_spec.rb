@@ -18,7 +18,7 @@ describe 'Rescue from within a Rails 3.x controller' do
   end
 
   it 'should intercept error and notify crashlog' do
-    CrashLog.should_receive(:notify).with(kind_of(RuntimeError)).once
+    CrashLog.should_receive(:notify_or_ignore).with(kind_of(RuntimeError)).once
 
     begin
       get '/broken'

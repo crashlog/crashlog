@@ -16,13 +16,15 @@ module CrashLog
 
       # crash_log_context is defined in controller_methods.rb
       def rescue_action_in_public_with_crash_log(exception)
-        crash_log.auto_notify(exception, crash_log_context)
+        CrashLog.notify_or_ignore(exception, crash_log_context)
+      ensure
         rescue_action_in_public_without_crash_log(exception)
       end
 
       # crash_log_context is defined in controller_methods.rb
       def rescue_action_locally_with_crash_log(exception)
-        crash_log.auto_notify(exception, crash_log_context)
+        CrashLog.notify_or_ignore(exception, crash_log_context)
+      ensure
         rescue_action_locally_without_crash_log(exception)
       end
     end

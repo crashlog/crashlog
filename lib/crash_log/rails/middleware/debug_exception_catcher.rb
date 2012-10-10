@@ -12,8 +12,8 @@ module CrashLog
         def render_exception_with_crash_log(env, exception)
           controller = env['action_controller.instance']
 
-          env['crash_log.error_id'] = CrashLog.notify(exception) #,
-                                                      # crash_log_context(controller, env))
+          CrashLog.notify_or_ignore(exception) #,
+                                     # crash_log_context(controller, env))
 
           if defined?(controller.rescue_action_in_public_without_crash_log)
             controller.rescue_action_in_public_without_crash_log(exception)
