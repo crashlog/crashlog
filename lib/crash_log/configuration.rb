@@ -171,7 +171,7 @@ module CrashLog
     end
 
     def ignored?(exception)
-      ignore.include?(error_class(exception))
+      ignore.include?(error_class(exception).to_s)
     end
 
     def secure?
