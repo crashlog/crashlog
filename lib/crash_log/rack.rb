@@ -30,14 +30,12 @@ module CrashLog
       begin
         response = @app.call(env)
       rescue Exception => exception
-        error_id = CrashLog.notify(exception, :rack_env => env)
-        env['crash_log.error_id'] = error_id
+        CrashLog.notify(exception, :rack_env => env)
         raise
       end
 
       if env['rack.exception']
-        error_id = CrashLog.notify(env['rack.exception'], :rack_env => env)
-        env['crash_log.error_id'] = error_id
+        CrashLog.notify(env['rack.exception'], :rack_env => env)
       end
 
       response
