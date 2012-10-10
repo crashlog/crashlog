@@ -55,6 +55,16 @@ describe CrashLog::Backtrace do
         ""
       ]
     end
+
+    it 'does not filter context file path' do
+      CrashLog.configuration.project_root = File.expand_path('../../', __FILE__)
+      filters = CrashLog.configuration.backtrace_filters
+      backtrace = CrashLog::Backtrace.parse(raised_error.backtrace, :filters => filters)
+      line = backtrace.lines.first
+
+      line.file.should match /\[PROJECT_ROOT\]/
+      line.context_line.should match /raise RuntimeError/
+    end
   end
 
   describe 'filters' do

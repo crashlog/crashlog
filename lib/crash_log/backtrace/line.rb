@@ -7,7 +7,7 @@ module CrashLog
       INPUT_FORMAT = %r{^((?:[a-zA-Z]:)?[^:]+):(\d+)(?::in `([^']+)')?$}
 
       # The file portion of the line (such as app/models/user.rb)
-      attr_reader :file
+      attr_reader :file, :original_file
 
       # The line number portion of the line
       attr_reader :number
@@ -25,9 +25,10 @@ module CrashLog
       end
 
       def initialize(file, number, method)
-        self.file   = file
-        self.number = number.to_i
-        self.method = method
+        self.file           = file
+        self.original_file  = file
+        self.number         = number.to_i
+        self.method         = method
       end
 
       # Reconstructs the line in a readable fashion
@@ -51,18 +52,20 @@ module CrashLog
       end
 
       def context_line
-        Backtrace::LineCache::getline(file, number)
+        Backtrace::LineCache::getline(original_file, number)
       end
+
+      alias :line_context :context_line
 
       def pre_context
         (number-context_lines..number-1).map {|i|
-          Backtrace::LineCache.getline(file, i)
+          Backtrace::LineCache.getline(original_file, i)
         }.select { |line| line }
       end
 
       def post_context
         (number+1..number+context_lines).map {|i|
-          Backtrace::LineCache.getline(file, i)
+          Backtrace::LineCache.getline(original_file, i)
         }.select { |line| line }
       end
 
@@ -98,7 +101,7 @@ module CrashLog
 
     private
 
-      attr_writer :file, :number, :method
+      attr_writer :file, :number, :method, :original_file
 
     end
   end
