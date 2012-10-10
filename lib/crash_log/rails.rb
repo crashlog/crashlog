@@ -19,7 +19,7 @@ module CrashLog
         rails_logger = RAILS_DEFAULT_LOGGER
       end
 
-      CrashLog.configure do |config|
+      CrashLog.configure(true) do |config|
         config.logger = rails_logger
         config.stage = RAILS_ENV  if defined?(RAILS_ENV)
         config.project_root = RAILS_ROOT if defined?(RAILS_ROOT)

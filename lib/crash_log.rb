@@ -82,12 +82,16 @@ module CrashLog
 
     # Configure the gem to send notifications, at the very least an api_key is
     # required.
-    def configure(&block)
+    def configure(announce = false, &block)
       if block_given?
         yield(configuration)
 
         if configuration.valid?
-          report_for_duty!
+          if announce.eql?(true)
+            report_for_duty!
+          else
+            info("Configuration updated")
+          end
         elsif !configuration.invalid_keys.include?(:api_key)
           error("Not configured correctly. Missing the following keys: #{configuration.invalid_keys.join(', ')}")
         end

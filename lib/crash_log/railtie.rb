@@ -6,7 +6,7 @@ module CrashLog
   class Railtie < ::Rails::Railtie
 
     config.after_initialize do
-      CrashLog.configure do |config|
+      CrashLog.configure(true) do |config|
         config.logger           = ::Rails.logger
         config.stage            = ::Rails.env
         config.project_root     = ::Rails.root
