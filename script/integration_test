@@ -2,6 +2,7 @@
 
 require 'logger'
 require 'fileutils'
+require "uri"
 
 RAILS_ENV = "production"
 RAILS_ROOT = FileUtils.pwd
@@ -18,17 +19,27 @@ host ||= "stdin.crashlog.io"
 
 secure = (ARGV[2] == "secure")
 
-exception = begin
-              raise "Testing crashlog notifier with secure = #{secure}. If you can see this, it works."
-            rescue => foo
-              foo
-            end
+class SimulatedExceptionRaiser
+  attr_reader :secure
+
+  def initialize(secure)
+    @secure = secure
+    break_things
+  rescue => e
+    CrashLog.notify(e)
+  end
+
+  def break_things
+    raise "Testing crashlog notifier with secure = #{secure}. If you can see this, it works."
+  end
+end
 
 CrashLog.configure do |config|
   config.api_key = ARGV[0]
   config.secret  = ARGV[1]
   config.scheme  = secure ? 'https' : 'http'
-  config.host    = host
+  config.host    = URI.parse(host).host
+  config.port    = URI.parse(host).port
   config.service_name = 'Staging'
 end
 
@@ -37,4 +48,5 @@ CrashLog.configuration.each do |key, value|
   puts sprintf("%25s: %s", key.to_s, value.inspect.slice(0, 55))
 end
 puts "Sending #{secure ? "" : "in"}secure notification to project with key #{ARGV.first}"
-CrashLog.notify(exception)
+
+SimulatedExceptionRaiser.new(secure)
