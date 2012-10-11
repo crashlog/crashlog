@@ -34,13 +34,13 @@ class SimulatedExceptionRaiser
   end
 end
 
-CrashLog.configure do |config|
+CrashLog.configure(true) do |config|
   config.api_key = ARGV[0]
   config.secret  = ARGV[1]
   config.scheme  = secure ? 'https' : 'http'
   config.host    = URI.parse(host).host
   config.port    = URI.parse(host).port
-  config.service_name = 'Staging'
+  # config.service_name = 'Staging'
 end
 
 puts "Configuration:"
