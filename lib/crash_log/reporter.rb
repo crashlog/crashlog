@@ -2,7 +2,6 @@ require 'faraday'
 require 'faraday/request/hmac_authentication'
 require 'uuid'
 require 'multi_json'
-require 'yajl'
 
 module CrashLog
   class Reporter
@@ -19,7 +18,7 @@ module CrashLog
       @endpoint   = config.endpoint
       @announce_endpoint = config.announce == true ?
                            config.announce_endpoint : nil
-      MultiJson.use(config.json_parser || :default_adapter)
+      MultiJson.use(config.json_parser || MultiJson.default_adapter)
     end
 
     def notify(payload)

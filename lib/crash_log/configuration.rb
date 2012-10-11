@@ -132,7 +132,8 @@ module CrashLog
       # Do not change unless you know what this does.
       :service_name => 'CrashLog',
 
-      :json_parser => :yajl
+      # MultiJson adapter
+      :json_parser => MultiJson.default_adapter
 
     def root
       fetch(:project_root)
