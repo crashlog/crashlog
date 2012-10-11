@@ -3,20 +3,24 @@ module CrashLog
     module ControllerMethods
 
       def crash_log_context
-        { :parameters       => crash_log_filter_if_filtering(params.to_hash),
+        {
+          :context => {
+            :controller       => params[:controller],
+            :action           => params[:action],
+            :current_user     => crash_log_current_user
+          },
+          :parameters       => crash_log_filter_if_filtering(params.to_hash),
           :session_data     => crash_log_filter_if_filtering(crash_log_session_data),
-          :controller       => params[:controller],
-          :action           => params[:action],
           :url              => crash_log_request_url,
           :cgi_data         => crash_log_filter_if_filtering(request.env),
-          :current_user     => crash_log_current_user
         }
       end
 
     private
+
       def notify_crashlog(exception, custom_data = nil)
         request_data = crash_log_context
-        #request_data[:meta_data][:custom] = custom_data if custom_data
+        request_data[:custom] = custom_data if custom_data
         CrashLog.notify(exception, request_data)
       end
 
