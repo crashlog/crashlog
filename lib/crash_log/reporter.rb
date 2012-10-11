@@ -82,7 +82,6 @@ module CrashLog
           faraday.request :hmac_authentication, config.api_key, config.secret, {:service_id => config.service_name}
           faraday.adapter(adapter)
           faraday.request :url_encoded
-          # faraday.request                 :token_auth, config.api_key
           # faraday.response                :logger
           # faraday.options[:timeout]       = config.http_read_timeout
           # faraday.options[:open_timeout]  = config.http_open_timeout

@@ -21,12 +21,19 @@ Or install it yourself as:
 
 ## Configuration
 
+### Basic:
+
 ```ruby
 CrashLog.configuration do |config|
-  config.api_key = "Your API Key"
-  config.project_id = "Project Project ID"
+  config.api_key  = "Your API Key"
+  config.secret   = "Project Project ID"
 end
 ```
+
+### Advanced
+
+See [configuration.rb](/crashlog/crashlog/blob/master/lib/crash_log/configuration.rb)
+for available options.
 
 ## Contributing
 
@@ -39,3 +46,4 @@ end
 ## Contributors
 
 - Ivan Vanderbyl
+- Mark Wolfe
