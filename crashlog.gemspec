@@ -2,10 +2,10 @@
 require File.expand_path('../lib/crash_log/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["TestPilot CI"]
+  gem.authors       = ["Ivan Vanderbyl"]
   gem.email         = ["support@crashlog.io"]
   gem.description   = %q{CrashLog Exception reporter}
-  gem.summary       = %q{CrashLog is an exception handler for production applications}
+  gem.summary       = %q{CrashLog is an exception handler for ambitious applications}
   gem.homepage      = "http://crashlog.io"
 
   gem.files         = `git ls-files`.split($\)
@@ -14,13 +14,12 @@ Gem::Specification.new do |gem|
   gem.name          = "crashlog"
   gem.require_paths = ["lib"]
   gem.version       = CrashLog::VERSION
-  gem.platform      = Gem::Platform::RUBY
 
   gem.add_dependency("activesupport")
-  gem.add_dependency("faraday")
+  gem.add_dependency("faraday",       '~> 0.8.4')
+  gem.add_dependency("multi_json",    '~> 1.3.6')
   gem.add_dependency("crashlog-auth-hmac", '~> 1.1.6')
-  gem.add_dependency("yajl-ruby")
-  gem.add_dependency("rabl", '>= 0.6.14')
+  gem.add_dependency("rabl",          '>= 0.6.14')
   gem.add_dependency("uuid")
   gem.add_dependency("hashr")
 end

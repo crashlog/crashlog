@@ -8,14 +8,14 @@ GIT
 PATH
   remote: .
   specs:
-    crashlog (1.0.0)
+    crashlog (1.0.1)
       activesupport
       crashlog-auth-hmac (~> 1.1.6)
-      faraday
+      faraday (~> 0.8.4)
       hashr
+      multi_json (~> 1.3.6)
       rabl (>= 0.6.14)
       uuid
-      yajl-ruby
 
 GEM
   remote: https://rubygems.org/
@@ -143,7 +143,6 @@ GEM
     tzinfo (0.3.33)
     uuid (2.3.5)
       macaddr (~> 1.0)
-    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
