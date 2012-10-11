@@ -20,19 +20,21 @@ module CrashLog
       log_exception(e)
     end
 
-    attr_reader :config, :backtrace_filters
+    attr_reader :config, :backtrace_filters, :data
 
     def initialize(event_data, config)
       @config = config || {}
       @event_data = event_data
       @context = {}
       @environment = {}
+      @data = {}
       @backtrace_filters = config[:backtrace_filters] || []
 
       # Actually serialize the exception/event hash for transport
       @event = serialize_event(event_data)
 
-      # add_environment_data(:system => SystemInformation.to_hash)
+      add_environment_data(:system => SystemInformation.to_hash)
+      add_context(:stage => config.stage)
     end
 
     def deliver
@@ -55,16 +57,12 @@ module CrashLog
       (@context ||= {}).merge!(data) if data.is_a?(Hash)
     end
 
-    def add_user_data(data, value = nil)
-      if data.respond_to?(:keys)
-        @user_data.merge!(data)
-      elsif value && data.respond_to?(:to_sym)
-        @user_data[data.to_sym] = value
-      end
+    def add_data(data)
+      (@data ||= {}).merge!(data) if data.is_a?(Hash)
     end
 
     def add_session_data(data)
-      (@environment[:session] ||= {}).merge!(data) if data.is_a?(Hash)
+      (@data[:session] ||= {}).merge!(data) if data.is_a?(Hash)
     end
 
     def add_environment_data(data)
@@ -88,11 +86,6 @@ module CrashLog
         :name => "crashlog",
         :version => CrashLog::VERSION
       }
-    end
-
-    # Returns the hostname of this machine
-    def hostname
-      SystemInformation.hostname
     end
 
   private

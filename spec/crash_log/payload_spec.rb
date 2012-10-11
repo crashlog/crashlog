@@ -5,8 +5,9 @@ describe CrashLog::Payload do
   include JsonSpec
 
   let(:configuration) do
-    stub('configuration').tap do |config|
-      config.stub(:[])
+    CrashLog.configure do |config|
+      config.api_key = 'API_KEY'
+      config.secret = 'SECRET'
     end
   end
 
@@ -21,12 +22,13 @@ describe CrashLog::Payload do
   end
 
   describe '#add_context' do
-    it 'user_data should be empty' do
-      subject.context.should be_empty
+    it 'has stage set from payload' do
+      data = {:stage=>"production"}
+      subject.context.should == data
     end
 
     it 'merges in new user data' do
-      data = {:email => "user@example.com"}
+      data = {:stage=>"production", :email=>"user@example.com"}
       subject.add_context(data)
       subject.context.should == data
     end
@@ -34,13 +36,13 @@ describe CrashLog::Payload do
 
   describe '#add_session_data' do
     it 'is empty by default' do
-      subject.environment[:session].should be_nil
+      subject.data[:session].should be_nil
     end
 
     it 'allows merging in data' do
       data = {:path => '/problematic/path'}
       subject.add_session_data(data)
-      subject.environment[:session].should == data
+      subject.data[:session].should == data
     end
 
     it 'allows adding more data' do
@@ -49,8 +51,8 @@ describe CrashLog::Payload do
       subject.add_session_data(data_1)
       subject.add_session_data(data_2)
 
-      subject.environment[:session][:path].should == data_1[:path]
-      subject.environment[:session][:count].should == data_2[:count]
+      subject.data[:session][:path].should == data_1[:path]
+      subject.data[:session][:count].should == data_2[:count]
     end
   end
 
@@ -72,9 +74,9 @@ describe CrashLog::Payload do
       end
     end
 
-    describe 'exception' do
+    describe 'event' do
 
-      it 'has class_name' do
+      it 'has type' do
         subject.body.to_json.should have_json_path('event/type')
       end
 
@@ -82,42 +84,61 @@ describe CrashLog::Payload do
         subject.body.to_json.should have_json_path('event/message')
       end
 
-      describe 'backtrace' do
-        it 'has line number' do
-          subject.body.to_json.should have_json_path('backtrace/0/number')
-        end
-
-        it 'has integer as line number' do
-          subject.body.to_json.should have_json_type(Integer).at_path('backtrace/0/number')
-        end
-
-        it 'has filename' do
-          subject.body.to_json.should have_json_path('backtrace/0/file')
-        end
-
-        it 'has method' do
-          subject.body.to_json.should have_json_path('backtrace/0/method')
-        end
-      end
-
-      it 'has backtrace' do
-        subject.body.to_json.should have_json_path('backtrace/0')
-      end
-
       it 'has timestamp' do
         subject.body.to_json.should have_json_path('event/timestamp')
       end
     end
 
-    describe 'session' do
-
+    it 'has backtrace' do
+      subject.body.to_json.should have_json_path('backtrace/0')
     end
 
-    describe 'user_data' do
-      it 'has first key provided by user' do
-        pending
-        # subject.add_user_data({:email => "user@example.com"})
-        # subject.body.to_json.should have_json_path('user_data/email')
+    describe 'environment' do
+      it 'should have system information' do
+        subject.body.to_json.should have_json_path('environment/system/hostname')
+      end
+
+      it 'has system ruby version' do
+        subject.body.to_json.should have_json_path('environment/system/ruby_version')
+      end
+
+      it 'has system username' do
+        subject.body.to_json.should have_json_path('environment/system/username')
+      end
+
+      it 'has system environment' do
+        subject.body.to_json.should have_json_path('environment/system/environment')
+      end
+    end
+
+    describe 'backtrace' do
+      it 'has line number' do
+        subject.body.to_json.should have_json_path('backtrace/0/number')
+      end
+
+      it 'has integer as line number' do
+        subject.body.to_json.should have_json_type(Integer).at_path('backtrace/0/number')
+      end
+
+      it 'has filename' do
+        subject.body.to_json.should have_json_path('backtrace/0/file')
+      end
+
+      it 'has method' do
+        subject.body.to_json.should have_json_path('backtrace/0/method')
+      end
+    end
+
+    describe 'context' do
+      it 'has stage' do
+        subject.body.to_json.should have_json_path('context/stage')
+      end
+    end
+
+    describe 'data' do
+      it 'adds data to data interface' do
+        subject.add_data(something_awesome: 'Indeed')
+        subject.body.to_json.should have_json_path('data/something_awesome')
       end
     end
   end

@@ -49,12 +49,9 @@ module CrashLog
     #     CrashLog.notify(e, {current_user: current_user})
     #   end
     #
-    #   This will try to serialize the current user by calling `as_crashlog_context` or `as_json`
-    #   otherwise it will try `to_s`
-    #
     # Returns true if successful, otherwise false
-    def notify(exception, context = {})
-      send_notification(exception, context).tap do |notification|
+    def notify(exception, data = {})
+      send_notification(exception, data).tap do |notification|
         if notification
           info "Event sent to CrashLog.io"
           info "Event URL: http://crashlog.io/locate/#{notification[:location_id]}" if notification.has_key?(:location_id)
@@ -135,9 +132,12 @@ module CrashLog
       end
     end
 
-    def build_payload(exception, context = {})
+    def build_payload(exception, data = {})
       Payload.build(exception, configuration) do |payload|
-        payload.add_context(context)
+        if context = data.delete(:context)
+          payload.add_context(context)
+        end
+        payload.add_data(data)
       end
     end
   end

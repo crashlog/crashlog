@@ -28,6 +28,8 @@ module CrashLog
 
       def username
         ENV['LOGNAME'] || ENV['USER'] || ENV['USERNAME'] || ENV['APACHE_RUN_USER'] || 'UNKNOWN'
+      rescue
+        nil
       end
 
       def environment
@@ -38,6 +40,8 @@ module CrashLog
         else
           {}
         end
+      rescue
+        {}
       end
 
       def libraries_loaded
