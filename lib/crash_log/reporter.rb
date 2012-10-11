@@ -19,7 +19,7 @@ module CrashLog
       @endpoint   = config.endpoint
       @announce_endpoint = config.announce == true ?
                            config.announce_endpoint : nil
-      MultiJson.use(config.json_parser || :yajl)
+      MultiJson.use(config.json_parser || :default_adapter)
     end
 
     def notify(payload)
