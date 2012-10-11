@@ -7,4 +7,7 @@ class BreakController < ApplicationController
     raise RuntimeError, "You hit the broken route"
   end
 
+  def current_user
+    CurrentUser.new
+  end
 end
