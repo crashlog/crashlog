@@ -26,6 +26,7 @@ module CrashLog
   LOG_PREFIX = '** [CrashLog]'
 
   class << self
+    attr_accessor :reporter
 
     # Sends a notification to CrashLog
     #
@@ -86,6 +87,8 @@ module CrashLog
       if block_given?
         yield(configuration)
 
+        self.reporter = CrashLog::Reporter.new(configuration)
+
         if configuration.valid?
           if announce.eql?(true)
             report_for_duty!
@@ -96,6 +99,7 @@ module CrashLog
           error("Not configured correctly. Missing the following keys: #{configuration.invalid_keys.join(', ')}")
         end
       end
+      configuration
     end
 
     # The global configuration object.

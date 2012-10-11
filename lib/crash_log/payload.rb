@@ -36,10 +36,13 @@ module CrashLog
     end
 
     def deliver
-      reporter = Reporter.new(config)
       if reporter.notify(self.body)
         reporter.result
       end
+    end
+
+    def reporter
+      CrashLog.reporter
     end
 
     attr_reader :event, :backtrace, :exception_object, :environment, :context
