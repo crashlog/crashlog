@@ -56,6 +56,7 @@ module CrashLog
       end
 
       def crash_log_current_user
+        # Credit to Airbrake gem for this one.
         user = begin current_user rescue current_member end
         user.attributes.select do |k, v|
           CrashLog.configuration.
