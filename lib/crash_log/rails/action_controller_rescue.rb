@@ -1,7 +1,7 @@
 module CrashLog
   module Rails
 
-    # CrashLog controller integration
+    # CrashLog Rails 2.x controller integration
     # Aliases method chain for Rails internal rescue action
     module ActionControllerRescue
       def self.included(base)

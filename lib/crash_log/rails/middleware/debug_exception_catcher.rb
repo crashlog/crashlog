@@ -10,31 +10,32 @@ module CrashLog
         # Hook into the rails error rendering page to send this exception to
         # CrashLog before rails handlers take over.
         def render_exception_with_crash_log(env, exception)
-          controller = env['action_controller.instance']
+          begin
+            controller = env['action_controller.instance']
+            CrashLog.notify_or_ignore(exception, crash_log_context(controller, env))
 
-          CrashLog.notify_or_ignore(exception) #,
-                                     # crash_log_context(controller, env))
+            if defined?(controller.rescue_action_in_public_without_crash_log)
+              controller.rescue_action_in_public_without_crash_log(exception)
+            end
 
-          if defined?(controller.rescue_action_in_public_without_crash_log)
-            controller.rescue_action_in_public_without_crash_log(exception)
+          rescue Exception => e
+            # If it breaks here there is possibly something wrong with us, so
+            # instead of crashing again, we'll just pass it on.
           end
-
-        rescue Exception => e
-          # If it breaks here there is possibly something wrong with us, so
-          # instead of crashing again, we'll just pass it on.
-        ensure
           render_exception_without_crash_log(env, exception)
         end
 
       private
 
         def crash_log_context(controller, env)
-          # TODO: Replace this with user context lookup
-          if controller.respond_to?(:crash_log_request_data)
-            controller.crash_log_request_data
+          if controller.respond_to?(:crash_log_context)
+            controller.crash_log_context
           else
             {:rack_env => env}
           end
+
+        rescue => e
+          {:failed_context => true}
         end
 
       end

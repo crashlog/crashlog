@@ -67,7 +67,7 @@ describe 'Rescue from within a Rails 3.x controller' do
     assert_caught_and_sent
   end
 
-  it 'should capture current user' do
+  it 'captures standard backtrace attributes' do
     action
 
     last_notice.to_json.should have_json_path('notifier/name')
@@ -81,6 +81,15 @@ describe 'Rescue from within a Rails 3.x controller' do
     last_notice.to_json.should have_json_path('backtrace/0/pre_context/4')
     last_notice.to_json.should have_json_path('environment/system/hostname')
     last_notice.to_json.should have_json_path('environment/system/application_root')
+  end
+
+  it 'captures current user' do
+    # ActionController::Base.any_instance.stub(:crash_log_context).and_return({current_user: {id: 1}})
+
+    action
+
+    # last_notice.should == ''
+    last_notice.to_json.should have_json_path('context/current_user')
   end
 
   it 'should capture crash log custom data'

@@ -7,6 +7,12 @@ class BreakController < ApplicationController
     raise RuntimeError, "You hit the broken route"
   end
 
+  def manual_notify
+    raise RuntimeError, "Manual exception"
+  rescue => e
+    notify_crashlog(e)
+  end
+
   def current_user
     CurrentUser.new
   end

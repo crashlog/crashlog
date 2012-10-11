@@ -24,8 +24,6 @@ module CrashLog
         CrashLog.notify(exception, request_data)
       end
 
-      alias_method :notify_airbrake, :notify_crashlog
-
       def crash_log_session_data
         if session.respond_to?(:to_hash)
           session.to_hash
@@ -43,6 +41,18 @@ module CrashLog
 
         url << request.fullpath
         url
+      end
+
+      def crash_log_filter_if_filtering(hash)
+        return hash if ! hash.is_a?(Hash)
+
+        if respond_to?(:filter_parameters) # Rails 2
+          filter_parameters(hash)
+        elsif defined?(ActionDispatch::Http::ParameterFilter) # Rails 3
+          ActionDispatch::Http::ParameterFilter.new(::Rails.application.config.filter_parameters).filter(hash)
+        else
+          hash
+        end rescue hash
       end
 
       def crash_log_current_user
