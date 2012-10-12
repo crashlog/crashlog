@@ -77,7 +77,9 @@ module CrashLog
       connection.post do |req|
         req.url(endpoint)
         req.headers['Content-Type'] = 'application/json; charset=UTF-8'
-        req.body = body
+        req.options[:timeout]       = config.http_read_timeout
+        req.options[:open_timeout]  = config.http_open_timeout
+        req.body                    = body
       end
     end
 
@@ -88,8 +90,6 @@ module CrashLog
           faraday.adapter(adapter)
           faraday.request :url_encoded
           # faraday.response                :logger
-          # faraday.options[:timeout]       = config.http_read_timeout
-          # faraday.options[:open_timeout]  = config.http_open_timeout
           # faraday.ssl[:verify]            = false
         end
       end
