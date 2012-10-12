@@ -31,10 +31,10 @@ describe "Initializer" do
 
     it "allows overriding of the logger if already assigned" do
       pending
-      # unless defined?(::Rails)
-      #   module Rails
-      #   end
-      # end
+      unless defined?(::Rails)
+        module Rails
+        end
+      end
 
       Rails.stub(:logger).and_return(logger)
 

@@ -137,7 +137,7 @@ describe CrashLog::Payload do
 
     describe 'data' do
       it 'adds data to data interface' do
-        subject.add_data(something_awesome: 'Indeed')
+        subject.add_data(:something_awesome => 'Indeed')
         subject.body.to_json.should have_json_path('data/something_awesome')
       end
     end
