@@ -34,7 +34,7 @@ module CrashLog
       report_result(response.body)
       response.success?
     rescue => e
-      log_exception e
+      # log_exception e
       error("Sending exception failed due to a connectivity issue")
       nil
     end
