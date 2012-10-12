@@ -67,7 +67,7 @@ describe CrashLog::Reporter do
     end
 
     it 'makes a post request' do
-      response = double("Post", success?: true)
+      response = double("Post", :success? => true)
       response.stub(:body).and_return(positive_response_json)
       subject.send(:connection).should_receive(:post).once.and_return(response)
       subject.notify(payload)
