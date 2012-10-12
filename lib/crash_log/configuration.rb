@@ -1,4 +1,6 @@
 require 'hashr'
+require 'multi_json'
+
 module CrashLog
   class Configuration < Hashr
     DEFAULT_PARAMS_FILTERS = %w(password password_confirmation).freeze

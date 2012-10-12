@@ -9,6 +9,7 @@ rescue LoadError
   require 'activesupport/core_ext'
 end
 require 'faraday'
+require 'multi_json'
 require 'crash_log/railtie' if defined?(Rails::Railtie)
 
 require 'crash_log/logging'
