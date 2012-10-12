@@ -4,27 +4,35 @@ require 'rails'
 # Rails 3.x support
 module CrashLog
   class Railtie < ::Rails::Railtie
+    rake_tasks do
+      load "crash_log/tasks/crash_log.rake"
+    end
 
-    config.after_initialize do
+    config.before_initialize do
       CrashLog.configure(true) do |config|
         config.logger           = ::Rails.logger
         config.stage            = ::Rails.env
         config.project_root     = ::Rails.root
         config.framework        = "Rails: #{::Rails::VERSION::STRING}"
-      end
-
-      initializer "crash_log.use_rack_middleware" do |app|
-        app.config.middleware.insert 0, "CrashLog::Rack"
+        config.params_filters   += Rails.configuration.filter_parameters
       end
 
       # Attach our Rails Controller methods
-      ActiveSupport.on_load(:action_controller) do
-        # Lazily load action_controller methods
-        require 'crash_log/rails/controller_methods'
-
-        include CrashLog::Rails::ControllerMethods
+      if defined?(::ActionController::Base)
+        require "crash_log/rails/controller_methods"
+        ::ActionController::Base.send(:include, CrashLog::Rails::ControllerMethods)
       end
+    end
 
+    initializer "crash_log.use_rack_middleware" do |app|
+      begin
+        app.config.middleware.insert_after ActionDispatch::DebugExceptions, "CrashLog::Rack"
+      rescue
+        app.config.middleware.use "CrashLog::Rack"
+      end
+    end
+
+    config.after_initialize do
       if defined?(::ActionDispatch::DebugExceptions)
         # We should catch the exceptions in ActionDispatch::DebugExceptions in Rails 3.2.x.
         require 'crash_log/rails/middleware/debug_exception_catcher'
