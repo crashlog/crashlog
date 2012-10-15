@@ -65,7 +65,12 @@ module CrashLog
     def identification_hash
       {
         :hostname => SystemInformation.hostname,
-        :timestamp => Time.now.utc.to_i
+        :timestamp => Time.now.utc.to_i,
+        :notifier => {
+          :name => "crashlog",
+          :version => CrashLog::VERSION,
+          :language => 'Ruby'
+        }
       }
     end
 
