@@ -38,6 +38,8 @@ module CrashLog
     end
 
     def deliver
+      error("Not configured, please run CrashLog.configure") && return unless reporter
+
       if reporter.notify(self.body)
         reporter.result
       end
@@ -84,7 +86,8 @@ module CrashLog
     def notifier
       {
         :name => "crashlog",
-        :version => CrashLog::VERSION
+        :version => CrashLog::VERSION,
+        :language => 'Ruby'
       }
     end
 
