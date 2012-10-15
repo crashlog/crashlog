@@ -43,9 +43,9 @@ module CrashLog
       return if dry_run?
       return "Unknown application" unless announce_endpoint
 
-      response = post(config.announce_endpoint, JSON.dump(identification_hash))
+      response = post(config.announce_endpoint, MultiJson.encode({:payload => identification_hash}))
       if response.status == 201
-        JSON.load(response.body).symbolize_keys.fetch(:application_name, 'Default')
+        MultiJson.load(response.body).symbolize_keys.fetch(:application_name, 'Default')
       else
         nil
       end
@@ -55,7 +55,7 @@ module CrashLog
     end
 
     def report_result(body)
-      @result = JSON.load(body).symbolize_keys
+      @result = MultiJson.load(body).symbolize_keys
     end
 
     def url
