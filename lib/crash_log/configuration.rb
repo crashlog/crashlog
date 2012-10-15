@@ -1,6 +1,5 @@
 require 'hashr'
 require 'multi_json'
-
 module CrashLog
   class Configuration < Hashr
     DEFAULT_PARAMS_FILTERS = %w(password password_confirmation).freeze
@@ -9,21 +8,21 @@ module CrashLog
     DEFAULT_BACKTRACE_FILTERS = [
       lambda { |line|
         if defined?(CrashLog.configuration.root) &&
-           CrashLog.configuration.root.to_s != ''
+           CrashLog.configuration.root.to_s != '' && line
           line.sub(/#{CrashLog.configuration.root}/, "[PROJECT_ROOT]")
         else
           line
         end
       },
-      lambda { |line| line.gsub(/^\.\//, "") },
+      lambda { |line| line && line.gsub(/^\.\//, "") },
       lambda { |line|
-        if defined?(Gem)
+        if defined?(Gem) && line
           Gem.path.inject(line) do |line, path|
             line.gsub(/#{path}/, "[GEM_ROOT]")
           end
         end
       },
-      lambda { |line| line if line !~ %r{lib/crash_log} }
+      lambda { |line| line if line && line !~ %r{lib/crash_log} }
     ].freeze
 
     IGNORE_DEFAULT = ['ActiveRecord::RecordNotFound',
