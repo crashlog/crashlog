@@ -66,6 +66,7 @@ module CrashLog
       {
         :hostname => SystemInformation.hostname,
         :timestamp => Time.now.utc.to_i,
+        :stage => config.stage,
         :notifier => {
           :name => "crashlog",
           :version => CrashLog::VERSION,
