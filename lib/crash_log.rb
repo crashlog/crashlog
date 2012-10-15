@@ -1,6 +1,7 @@
 $: << File.expand_path('..', __FILE__)
 
 require 'crash_log/version'
+
 begin
   require 'active_support'
   require 'active_support/core_ext'
@@ -8,10 +9,11 @@ rescue LoadError
   require 'activesupport'
   require 'activesupport/core_ext'
 end
+
 require 'faraday'
 require 'multi_json'
-require 'crash_log/railtie' if defined?(Rails::Railtie)
 
+require 'crash_log/railtie' if defined?(Rails::Railtie)
 require 'crash_log/logging'
 
 module CrashLog
@@ -70,7 +72,8 @@ module CrashLog
 
     # Print a message at the top of the applciation's logs to say we're ready.
     def report_for_duty!
-      application = CrashLog::Reporter.new(configuration).announce
+      self.reporter = CrashLog::Reporter.new(configuration)
+      application = reporter.announce
 
       if application
         info("Configured correctly and ready to handle exceptions for '#{application}'")
