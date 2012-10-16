@@ -1,30 +1,26 @@
-$: << File.expand_path('..', __FILE__)
-
-require 'crash_log/version'
-
-begin
-  require 'active_support'
-  require 'active_support/core_ext'
-rescue LoadError
-  require 'activesupport'
-  require 'activesupport/core_ext'
-end
-
 require 'faraday'
 require 'multi_json'
 
-require 'crash_log/railtie' if defined?(Rails::Railtie)
-require 'crash_log/logging'
+unless Kernel.respond_to?(:require_relative)
+  module Kernel
+    def require_relative(path)
+      require File.join(File.dirname(caller[0]), path.to_str)
+    end
+  end
+end
+
+require_relative './crash_log/railtie' if defined?(Rails::Railtie)
+require_relative './crash_log/version'
+require_relative './crash_log/logging'
+require_relative './crash_log/backtrace'
+require_relative './crash_log/configuration'
+require_relative './crash_log/payload'
+require_relative './crash_log/reporter'
+require_relative './crash_log/system_information'
+require_relative './crash_log/rack'
 
 module CrashLog
   extend Logging::ClassMethods
-
-  autoload :Backtrace,          'crash_log/backtrace'
-  autoload :Configuration,      'crash_log/configuration'
-  autoload :Payload,            'crash_log/payload'
-  autoload :Rack,               'crash_log/rack'
-  autoload :Reporter,           'crash_log/reporter'
-  autoload :SystemInformation,  'crash_log/system_information'
 
   LOG_PREFIX = '** [CrashLog]'
 
