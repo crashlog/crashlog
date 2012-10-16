@@ -1,23 +1,17 @@
 require 'faraday'
 require 'multi_json'
 
-unless Kernel.respond_to?(:require_relative)
-  module Kernel
-    def require_relative(path)
-      require File.join(File.dirname(caller[0]), path.to_str)
-    end
-  end
-end
+require File.expand_path('../core_ext/kernel/require_relative', __FILE__)
 
-require_relative './crash_log/railtie' if defined?(Rails::Railtie)
-require_relative './crash_log/version'
-require_relative './crash_log/logging'
-require_relative './crash_log/backtrace'
-require_relative './crash_log/configuration'
-require_relative './crash_log/payload'
-require_relative './crash_log/reporter'
-require_relative './crash_log/system_information'
-require_relative './crash_log/rack'
+require_relative 'crash_log/railtie' if defined?(Rails::Railtie)
+require_relative 'crash_log/version'
+require_relative 'crash_log/logging'
+require_relative 'crash_log/backtrace'
+require_relative 'crash_log/configuration'
+require_relative 'crash_log/payload'
+require_relative 'crash_log/reporter'
+require_relative 'crash_log/system_information'
+require_relative 'crash_log/rack'
 
 module CrashLog
   extend Logging::ClassMethods

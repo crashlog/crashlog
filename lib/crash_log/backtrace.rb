@@ -1,8 +1,8 @@
 module CrashLog
   class Backtrace
 
-    autoload :Line,       'crash_log/backtrace/line'
-    autoload :LineCache,  'crash_log/backtrace/line_cache'
+    require_relative 'backtrace/line'
+    require_relative 'backtrace/line_cache'
 
     # holder for an Array of Backtrace::Line instances
     attr_reader :lines
@@ -56,8 +56,8 @@ module CrashLog
     attr_writer :lines
 
     def self.split_multiline_backtrace(backtrace)
-      if backtrace.to_a.size == 1
-        backtrace.to_a.first.split(/\n\s*/)
+      if Array(backtrace).size == 1
+        Array(backtrace).first.split(/\n\s*/)
       else
         backtrace
       end
