@@ -15,7 +15,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = CrashLog::VERSION
 
-  gem.add_dependency("activesupport")
   gem.add_dependency("faraday",       '~> 0.8.4')
   gem.add_dependency("multi_json",    '~> 1.3.6')
   gem.add_dependency("crashlog-auth-hmac", '~> 1.1.6')
