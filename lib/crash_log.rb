@@ -1,6 +1,14 @@
 require 'faraday'
 require 'multi_json'
 
+unless Kernel.respond_to?(:require_relative)
+  module Kernel
+    def require_relative(path)
+      require File.join(File.dirname(caller[0]), path.to_str)
+    end
+  end
+end
+
 require_relative './crash_log/railtie' if defined?(Rails::Railtie)
 require_relative './crash_log/version'
 require_relative './crash_log/logging'
