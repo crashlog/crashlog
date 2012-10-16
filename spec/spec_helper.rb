@@ -1,6 +1,10 @@
-if ENV['COV']
+begin
   require 'simplecov'
-  SimpleCov.start
+  SimpleCov.start do
+    add_filter "spec/"
+  end
+rescue LoadError
+  puts "Skipping SimpleCov"
 end
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
