@@ -37,6 +37,7 @@ module CrashLog
       # log_exception e
       error("Sending exception failed due to a connectivity issue")
       nil
+      raise if config.development_mode?
     end
 
     def announce
@@ -52,6 +53,7 @@ module CrashLog
     rescue => e
       error("Failed to announce application launch")
       nil
+      raise if config.development_mode?
     end
 
     def report_result(body)

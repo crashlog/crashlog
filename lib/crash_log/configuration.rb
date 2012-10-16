@@ -134,7 +134,12 @@ module CrashLog
       :service_name => 'CrashLog',
 
       # MultiJson adapter
-      :json_parser => MultiJson.default_adapter
+      :json_parser => MultiJson.default_adapter,
+
+      # Development mode
+      # When enabled we don't swallow internal exceptions.
+      # Useful for debugging connection issues.
+      :development_mode => false
 
     def root
       fetch(:project_root)
@@ -185,6 +190,10 @@ module CrashLog
 
     def notifier_version
       CrashLog::VERSION
+    end
+
+    def development_mode?
+      development_mode.eql?(true)
     end
 
   private
