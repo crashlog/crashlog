@@ -20,6 +20,27 @@ describe CrashLog::Backtrace do
     end
   end
 
+  describe '.split_multiline_backtrace' do
+    it 'splits multiple lines into an array' do
+      CrashLog::Backtrace.send(:split_multiline_backtrace, "line.rb:1\nline.rb:2").size.should == 2
+    end
+  end
+
+  describe 'comparisson' do
+    it 'matches backtraces on lines' do
+      backtrace_1 = CrashLog::Backtrace.parse(caller)
+      backtrace_2 = CrashLog::Backtrace.parse(caller)
+
+      backtrace_1.should == backtrace_2
+    end
+
+    it 'fails to match different backtraces' do
+      backtrace_1 = CrashLog::Backtrace.parse(caller)
+      backtrace_2 = CrashLog::Backtrace.parse(raised_error.backtrace)
+      backtrace_1.should_not == backtrace_2
+    end
+  end
+
   describe 'lines' do
     it 'are converted into a parsed Line object' do
       CrashLog::Backtrace.parse(raised_error.backtrace).lines.first.should be_a(CrashLog::Backtrace::Line)
