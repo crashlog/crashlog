@@ -1,5 +1,6 @@
 require 'faraday'
 require 'multi_json'
+require 'time'
 
 require File.expand_path('../core_ext/kernel/require_relative', __FILE__)
 
