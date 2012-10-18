@@ -99,6 +99,10 @@ module CrashLog
       @configuration ||= Configuration.new
     end
 
+    def reset_configuration!
+      @configuration = Configuration.new
+    end
+
     # The default logging device.
     def logger
       self.configuration.logger || Logger.new($stdout)
