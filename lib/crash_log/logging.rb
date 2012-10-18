@@ -22,17 +22,28 @@ module CrashLog
         define_method(level) do |*args|
           message, options = *args
           message.chomp.split("\n").each do |line|
-            logger.send(level, prefix(line))
+            logger.send(level, prefix(line, color_for_level(level)))
           end
         end
       end
 
-      def prefix(string)
-        [CrashLog::LOG_PREFIX, string].join(' ')
+      def prefix(string, color = :green)
+        [colorize(:yellow, CrashLog::LOG_PREFIX), colorize(color, string)].join(' ')
       end
 
       def colorize(color, text)
         "\e[#{ANSI[color]}m#{text}\e[0m"
+      end
+
+      def color_for_level(level)
+        case level.to_sym
+        when :fatel, :error, :warn
+          :red
+        when :debug
+          :cyan
+        else
+          :green
+        end
       end
 
       def log_exception(exception)
