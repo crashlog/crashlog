@@ -8,7 +8,6 @@ module CrashLog
     end
 
     config.before_initialize do
-
       CrashLog.configure(true) do |config|
         config.logger           = ::Rails.logger
         config.stage            = ::Rails.env

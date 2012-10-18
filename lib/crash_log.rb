@@ -18,6 +18,9 @@ require_relative 'crash_log/rack'
 module CrashLog
   extend Logging::ClassMethods
 
+  puts caller
+  puts '*' * 80
+
   LOG_PREFIX = '** [CrashLog]'
 
   class << self
