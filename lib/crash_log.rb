@@ -40,7 +40,7 @@ module CrashLog
     #   def something_dangerous
     #     raise RuntimeError, "This is too dangerous for you"
     #   rescue => e
-    #     CrashLog.notify(e, {current_user: current_user})
+    #     CrashLog.notify(e, {context: {current_user: current_user}})
     #   end
     #
     # Returns true if successful, otherwise false
