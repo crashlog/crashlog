@@ -40,6 +40,7 @@ CrashLog.configure(true) do |config|
   config.scheme  = secure ? 'https' : 'http'
   config.host    = URI.parse(host).host
   config.port    = URI.parse(host).port
+  config.development_mode = true
   # config.service_name = 'Staging'
 end
 
