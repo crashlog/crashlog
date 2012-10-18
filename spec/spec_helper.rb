@@ -7,9 +7,9 @@ rescue LoadError
   puts "Skipping SimpleCov"
 end
 
-require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+# require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 
-require 'rspec/rails'
+# require 'rspec/rails'
 require 'delorean'
 require 'json_spec'
 require 'uuid'
@@ -30,5 +30,6 @@ RSpec.configure do |config|
 
   config.after(:each) do
     teardown_constants
+    CrashLog.reset_configuration!
   end
 end
