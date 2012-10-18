@@ -1,5 +1,6 @@
 require 'hashr'
 require 'multi_json'
+
 module CrashLog
   class Configuration < Hashr
     DEFAULT_PARAMS_FILTERS = %w(password password_confirmation).freeze
@@ -102,6 +103,11 @@ module CrashLog
       # Timeout for connecting to CrashLog collector interface
       :http_open_timeout => 5,
 
+      # +true+ to use whatever CAs OpenSSL has installed on your system.
+      # +false+ to use the ca-bundle.crt file included in CrashLog itself
+      # Defaut: false (reccomended)
+      :use_system_ssl_cert_chain => false,
+
       # Ignored error class names
       :ignore => IGNORE_DEFAULT.dup,
 
@@ -194,6 +200,18 @@ module CrashLog
 
     def development_mode?
       development_mode.eql?(true)
+    end
+
+    def ca_bundle_path
+      if use_system_ssl_cert_chain? && File.exist?(OpenSSL::X509::DEFAULT_CERT_FILE)
+        OpenSSL::X509::DEFAULT_CERT_FILE
+      else
+        local_cert_path # ca-bundle.crt built from source, see resources/README.md
+      end
+    end
+
+    def local_cert_path
+      File.expand_path(File.join("../../../resources/ca-bundle.crt"), __FILE__)
     end
 
   private

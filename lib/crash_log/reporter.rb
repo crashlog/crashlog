@@ -1,5 +1,5 @@
 require 'faraday'
-require 'faraday/request/hmac_authentication'
+require File.expand_path('../../faraday/request/hmac_authentication', __FILE__)
 require 'uuid'
 require 'multi_json'
 
@@ -98,7 +98,11 @@ module CrashLog
           faraday.adapter(adapter)
           faraday.request :url_encoded
           # faraday.response                :logger
-          # faraday.ssl[:verify]            = false
+
+          if config.secure?
+            faraday.ssl[:verify]            = true
+            faraday.ssl[:ca_path] = config.ca_bundle_path
+          end
         end
       end
     end
