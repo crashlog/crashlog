@@ -1,5 +1,5 @@
 require 'spec_helper'
-# require 'crash_log/rails'
+require 'crash_log/rails'
 
 describe "Initializer" do
 
@@ -9,6 +9,17 @@ describe "Initializer" do
   # before(:all) do
   #   load_dummy_app
   # end
+
+  it "triggers use of Rails' logger if logger isn't set and Rails' logger exists" do
+    rails = Module.new do
+      def self.logger
+        "RAILS LOGGER"
+      end
+    end
+    define_constant("Rails", rails)
+    CrashLog::Rails.initialize
+    expect("RAILS LOGGER").to eq(CrashLog.logger)
+  end
 
   describe 'auto configure logger' do
     before do
