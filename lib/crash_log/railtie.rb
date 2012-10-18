@@ -1,7 +1,9 @@
 # Rails 3.x support
 module CrashLog
   class Railtie < ::Rails::Railtie
-    require File.expand_path('../../crash_log', __FILE__)
+    path = File.expand_path('../../crash_log', __FILE__)
+    puts path
+    require path
 
     rake_tasks do
       load "crash_log/tasks/crash_log.rake"
