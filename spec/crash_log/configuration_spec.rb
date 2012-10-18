@@ -34,4 +34,11 @@ describe CrashLog::Configuration do
       subject.should be_valid
     end
   end
+
+  describe 'ca bundle config' do
+    it 'locates packaged ca bundle' do
+      subject.ca_bundle_path.should end_with("resources/ca-bundle.crt")
+      File.should exist(subject.ca_bundle_path)
+    end
+  end
 end
