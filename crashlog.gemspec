@@ -21,4 +21,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency("rabl",          '>= 0.6.14')
   gem.add_dependency("uuid")
   gem.add_dependency("hashr")
+  gem.add_dependency("json")
 end
