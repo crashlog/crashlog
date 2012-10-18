@@ -1,1 +1,1 @@
-require "crash_log/rails"
+require File.expand_path("../../lib/crash_log/rails", __FILE__)
