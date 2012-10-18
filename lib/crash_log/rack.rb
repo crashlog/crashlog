@@ -30,12 +30,12 @@ module CrashLog
       begin
         response = @app.call(env)
       rescue Exception => exception
-        CrashLog.notify(exception, :rack_env => env)
+        CrashLog.notify_or_ignore(exception, :rack_env => env)
         raise
       end
 
       if env['rack.exception']
-        CrashLog.notify(env['rack.exception'], :rack_env => env)
+        CrashLog.notify_or_ignore(env['rack.exception'], :rack_env => env)
       end
 
       response
