@@ -1,9 +1,7 @@
 #!/usr/bin/env rake
 require "bundler/gem_tasks"
 
-$: << 'lib'
-
-require "crash_log"
+require File.expand_path("../lib/crash_log", __FILE__)
 
 require 'rake'
 require "rspec/core/rake_task"
