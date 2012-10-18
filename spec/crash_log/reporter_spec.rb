@@ -9,6 +9,7 @@ describe CrashLog::Reporter do
       config.api_key = 'API_KEY'
       # config.adapter = test_adapter
       config.scheme = 'http'
+      config.developer_mode = true
     end
   }
 
