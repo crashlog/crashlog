@@ -1,5 +1,3 @@
-require 'active_support/core_ext/module/delegation'
-require 'active_support/core_ext/module/aliasing'
 require 'logger'
 
 module CrashLog
@@ -16,7 +14,9 @@ module CrashLog
     end
 
     module ClassMethods
-      delegate :logger, :to => CrashLog
+      def logger
+        CrashLog.logger
+      end
 
       [:fatal, :error, :warn, :info, :debug].each do |level|
         define_method(level) do |*args|
