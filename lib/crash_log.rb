@@ -7,6 +7,7 @@ require File.expand_path('../core_ext/kernel/require_relative', __FILE__)
 require_relative 'core_ext/hash/keys'
 require_relative 'crash_log/version'
 require_relative 'crash_log/logging'
+require_relative 'crash_log/helpers'
 require_relative 'crash_log/backtrace'
 require_relative 'crash_log/configuration'
 require_relative 'crash_log/payload'
