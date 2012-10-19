@@ -93,6 +93,8 @@ describe CrashLog do
 
   describe '.ready' do
     it 'logs an ready message' do
+      CrashLog.configuration.colorize = false
+
       CrashLog::Reporter.any_instance.stub(:announce).and_return("Test Application")
       logger = stub('Logger')
       logger.should_receive(:info).
