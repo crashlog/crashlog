@@ -1,5 +1,6 @@
 require 'hashr'
 require 'multi_json'
+require 'logger'
 
 module CrashLog
   class Configuration < Hashr
