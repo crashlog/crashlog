@@ -30,18 +30,19 @@ module CrashLog
       return if dry_run?
 
       payload[:data] = CrashLog::Helpers.cleanup_obj(payload[:data])
+      payload_string = MultiJson.encode({:payload => payload})
+
       # Useful to make sure we're successfully capturing the right data
       debug(payload.inspect) if config.development_mode?
 
-      response = post(endpoint, MultiJson.encode({:payload => payload}))
+      response = post(endpoint, payload_string)
       @response = response
       report_result(response.body)
       response.success?
     rescue => e
-      # log_exception e
       error("Sending exception failed due to a connectivity issue")
-      nil
       raise if config.development_mode?
+      nil
     end
 
     def announce
