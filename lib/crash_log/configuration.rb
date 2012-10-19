@@ -48,6 +48,9 @@ module CrashLog
       # - Logger::ANY
       :level => Logger::INFO,
 
+      # Colorize log output
+      :colorize => true,
+
       # The API key to authenticate this project with CrashLog
       #
       # Get this from your projects configuration page within http://CrashLog.io

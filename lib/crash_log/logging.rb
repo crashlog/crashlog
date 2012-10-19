@@ -32,7 +32,17 @@ module CrashLog
       end
 
       def colorize(color, text)
-        "\e[#{ANSI[color]}m#{text}\e[0m"
+        if colorize?
+          "\e[#{ANSI[color]}m#{text}\e[0m"
+        else
+          text
+        end
+      end
+
+      def colorize?
+        CrashLog.configuration.colorize.eql?(true)
+      rescue
+        false
       end
 
       def color_for_level(level)
