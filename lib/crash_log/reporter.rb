@@ -29,6 +29,9 @@ module CrashLog
     def notify(payload)
       return if dry_run?
 
+      # Useful to make sure we're successfully capturing the right data
+      debug(payload.inspect) if config.development_mode?
+
       response = post(endpoint, MultiJson.encode({:payload => payload}))
       @response = response
       report_result(response.body)
