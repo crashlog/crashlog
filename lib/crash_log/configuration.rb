@@ -232,7 +232,13 @@ module CrashLog
 
     def logger=(new_logger)
       self[:logger] = new_logger
-      new_logger.level = self.level
+      new_logger.level = self.level if self.logger.respond_to?(:level=)
+    end
+
+    # Helps to enable debug logging when in development mode
+    def development_mode=(flag)
+      self[:development_mode] = flag
+      self.level = Logger::DEBUG
     end
 
   private
