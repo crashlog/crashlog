@@ -38,6 +38,15 @@ module CrashLog
       # The logger to use for internal messages
     define :logger => nil,
 
+      # One of:
+      # - Logger::DEBUG
+      # - Logger::INFO
+      # - Logger::WARN
+      # - Logger::ERROR
+      # - Logger::FATAL
+      # - Logger::ANY
+      :level => Logger::INFO,
+
       # The API key to authenticate this project with CrashLog
       #
       # Get this from your projects configuration page within http://CrashLog.io
@@ -212,6 +221,11 @@ module CrashLog
 
     def local_cert_path
       File.expand_path(File.join("../../../resources/ca-bundle.crt"), __FILE__)
+    end
+
+    def logger=(new_logger)
+      self[:logger] = new_logger
+      new_logger.level = self.level
     end
 
   private
