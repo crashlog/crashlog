@@ -48,7 +48,11 @@ module CrashLog
       send_notification(exception, data).tap do |notification|
         if notification
           info "Event sent to CrashLog.io"
-          info "Event URL: http://crashlog.io/locate/#{notification[:location_id]}" if notification.has_key?(:location_id)
+          if notification.has_key?(:location_id)
+            info "Event URL: http://crashlog.io/locate/#{notification[:location_id]}"
+          else
+            error "No Event location ID returned. There may have been a problem processing this Event"
+          end
         else
           error "Failed to send event to CrashLog.io"
           log_exception(exception)
@@ -85,7 +89,7 @@ module CrashLog
           if announce.eql?(true)
             report_for_duty!
           else
-            info("Configuration updated")
+            debug("Configuration updated successfully")
           end
         elsif !configuration.invalid_keys.include?(:api_key)
           error("Not configured correctly. Missing the following keys: #{configuration.invalid_keys.join(', ')}")
@@ -126,9 +130,7 @@ module CrashLog
   private
 
     def send_notification(exception, context = {})
-      if live?
-        build_payload(exception, context).deliver!
-      end
+      build_payload(exception, context).deliver! if live?
     end
 
     def build_payload(exception, data = {})
