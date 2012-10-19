@@ -62,7 +62,7 @@ module CrashLog
 
     # Sends the notice unless it is one of the default ignored exceptions.
     def notify_or_ignore(exception, context = {})
-      notify(exception, context = {}) unless ignored?(exception)
+      notify(exception, context) unless ignored?(exception)
     end
 
     # Print a message at the top of the applciation's logs to say we're ready.
