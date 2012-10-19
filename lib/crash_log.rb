@@ -5,7 +5,6 @@ require 'time'
 require File.expand_path('../core_ext/kernel/require_relative', __FILE__)
 
 require_relative 'core_ext/hash/keys'
-require_relative 'crash_log/railtie' if defined?(Rails::Railtie)
 require_relative 'crash_log/version'
 require_relative 'crash_log/logging'
 require_relative 'crash_log/backtrace'
@@ -17,9 +16,6 @@ require_relative 'crash_log/rack'
 
 module CrashLog
   extend Logging::ClassMethods
-
-  puts caller
-  puts '*' * 80
 
   LOG_PREFIX = '** [CrashLog]'
 
@@ -145,3 +141,5 @@ module CrashLog
     end
   end
 end
+
+require_relative 'crash_log/railtie' if defined?(Rails::Railtie)
