@@ -7,14 +7,17 @@ module CrashLog
 
     config.before_initialize do
       require File.expand_path('../../crash_log', __FILE__)
-    end
 
-    config.after_initialize do
-      CrashLog.configure(true) do |config|
+      CrashLog.configure do |config|
         config.logger           = ::Rails.logger
         config.stage            = ::Rails.env
         config.project_root     = ::Rails.root
         config.framework        = "Rails: #{::Rails::VERSION::STRING}"
+      end
+    end
+
+    config.after_initialize do
+      CrashLog.configure(true) do |config|
         config.params_filters   += Rails.configuration.filter_parameters
       end
 
