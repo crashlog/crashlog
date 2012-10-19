@@ -29,6 +29,7 @@ module CrashLog
     def notify(payload)
       return if dry_run?
 
+      payload[:data] = CrashLog::Helpers.cleanup_obj(payload[:data])
       # Useful to make sure we're successfully capturing the right data
       debug(payload.inspect) if config.development_mode?
 
