@@ -144,4 +144,7 @@ module CrashLog
   end
 end
 
+# Require this last to resolve an issue with Rails apps that use Bundler.setup
+# instead of Bundler.require which results in the CrashLog module not being made
+# available in time. FIXES: https://github.com/crashlog/crashlog/issues/7
 require_relative 'crash_log/railtie' if defined?(Rails::Railtie)
