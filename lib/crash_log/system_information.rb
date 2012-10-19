@@ -34,9 +34,21 @@ module CrashLog
 
       def environment
         if ENV.respond_to?(:to_hash)
-          ENV.to_hash.reject do |k, v|
-            (k =~ /^HTTP_/) || CrashLog.configuration.environment_filters.include?(k)
+          env = ENV.to_hash.reject do |k, v|
+            (k =~ /^HTTP_/)
           end
+
+          unless CrashLog.configuration.environment_filters.empty?
+            env.each do |k, v|
+              if CrashLog.configuration.environment_filters.any? { |f|
+                  f.is_a?(Regexp) ? f =~ k.to_s : f.to_s == k.to_s
+                }
+                env[k] = '[FILTERED]'
+              end
+            end
+          end
+
+          env
         else
           {}
         end

@@ -35,6 +35,9 @@ module CrashLog
                       'AbstractController::ActionNotFound',
                       'Mongoid::Errors::DocumentNotFound']
 
+    ENVIRONMENT_FILTERS_DEFAULT = [
+      /SECRET/, /AWS/, /PASSWORD/, /PRIVATE/, /EC2/, /HEROKU/
+    ]
 
       # The logger to use for internal messages
     define :logger => nil,
@@ -134,7 +137,7 @@ module CrashLog
       :context_lines => 5,
 
       # Environment variables to discard from ENV.
-      :environment_filters => [],
+      :environment_filters => ENVIRONMENT_FILTERS_DEFAULT.dup,
 
       # Framework name
       :framework => 'Standalone',
