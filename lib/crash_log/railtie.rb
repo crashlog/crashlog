@@ -9,7 +9,6 @@ module CrashLog
       require File.expand_path('../../crash_log', __FILE__)
 
       CrashLog.configure do |config|
-        config.logger           = ::Rails.logger
         config.stage            = ::Rails.env
         config.project_root     = ::Rails.root
         config.framework        = "Rails: #{::Rails::VERSION::STRING}"
@@ -19,6 +18,7 @@ module CrashLog
     config.after_initialize do
       CrashLog.configure(true) do |config|
         config.params_filters   += Rails.configuration.filter_parameters
+        config.logger           = ::Rails.logger
       end
 
       # Attach our Rails Controller methods
