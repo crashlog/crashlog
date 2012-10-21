@@ -239,6 +239,7 @@ module CrashLog
     def development_mode=(flag)
       self[:development_mode] = flag
       self.level = Logger::DEBUG
+      new_logger.level = self.level if self.logger.respond_to?(:level=)
     end
 
   private
