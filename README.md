@@ -9,7 +9,9 @@ insight into issues occurring within your production applications, in realtime.
 
 Add this line to your application's Gemfile:
 
-    gem 'crashlog'
+```ruby
+gem 'crashlog'
+```
 
 And then execute:
 
