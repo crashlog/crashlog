@@ -19,7 +19,7 @@ module CrashLog
       @announce_endpoint = config.announce == true ?
                            config.announce_endpoint : nil
 
-      # Old versions of MultiJson don't support use.
+      # Old versions of MultiJson don't support #use.
       # TODO: Figure out what they do support. IV.
       if MultiJson.respond_to?(:use)
         MultiJson.use(config.json_parser || MultiJson.default_adapter)
@@ -29,6 +29,7 @@ module CrashLog
     def notify(payload)
       return if dry_run?
 
+      # TODO: Move this to Payload.
       payload[:data] = CrashLog::Helpers.cleanup_obj(payload[:data])
       payload_string = MultiJson.encode({:payload => payload})
 
@@ -57,8 +58,8 @@ module CrashLog
       end
     rescue => e
       error("Failed to announce application launch")
-      nil
       raise if config.development_mode?
+      nil
     end
 
     def report_result(body)
@@ -102,11 +103,12 @@ module CrashLog
           faraday.request :hmac_authentication, config.api_key, config.secret, {:service_id => config.service_name}
           faraday.adapter(adapter)
           faraday.request :url_encoded
-          # faraday.response                :logger
+          # faraday.response :logger
 
           if config.secure?
-            faraday.ssl[:verify]            = true
-            faraday.ssl[:ca_path] = config.ca_bundle_path
+            faraday.ssl[:verify]        = true
+            faraday.ssl[:verify_mode]   = OpenSSL::SSL::VERIFY_PEER
+            faraday.ssl[:ca_path]       = config.ca_bundle_path
           end
         end
       end
