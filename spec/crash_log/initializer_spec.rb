@@ -6,9 +6,11 @@ describe "Initializer" do
   let(:logger) { stub("Logger") }
   let(:other_logger) { stub("OtherLogger") }
 
-  # before(:all) do
-  #   load_dummy_app
-  # end
+  let(:rails) { double('Rails') }
+
+  before(:each) do
+    define_constant('Rails', rails)
+  end
 
   it "triggers use of Rails' logger if logger isn't set and Rails' logger exists" do
     rails = Module.new do
@@ -23,11 +25,6 @@ describe "Initializer" do
 
   describe 'auto configure logger' do
     before do
-      load_dummy_app
-      # unless defined?(Rails)
-      #   module Rails
-      #   end
-      # end
       Rails.stub(:logger).and_return(logger)
       logger.stub(:error)
       other_logger.stub(:error)
@@ -35,22 +32,13 @@ describe "Initializer" do
 
 
     it 'detects presence of Rails logger' do
-      pending
-      # CrashLog::Rails.__send__(:initialize)
-      CrashLog.logger.should be(logger)
+      CrashLog::Rails.__send__(:initialize)
+      CrashLog.logger.should eq(logger)
     end
 
     it "allows overriding of the logger if already assigned" do
-      pending
-      unless defined?(::Rails)
-        module Rails
-        end
-      end
-
-      Rails.stub(:logger).and_return(logger)
-
       CrashLog.logger.should_not == logger
-      # CrashLog::Rails.initialize
+      CrashLog::Rails.initialize
       CrashLog.logger.should == logger
 
       CrashLog.configure do |config|

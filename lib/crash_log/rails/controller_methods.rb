@@ -44,7 +44,7 @@ module CrashLog
       end
 
       def crash_log_filter_if_filtering(hash)
-        return hash if ! hash.is_a?(Hash)
+        return hash if !hash.is_a?(Hash)
 
         if respond_to?(:filter_parameters) # Rails 2
           filter_parameters(hash)
