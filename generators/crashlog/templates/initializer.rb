@@ -95,4 +95,7 @@ CrashLog.configure do |config|
   # our own certificate chain and use if by default. If you want to use the
   # system chain, set this to false.
   # config.use_system_ssl_cert_chain = false
+
+  # ==> Advanced options
+  # Refer to https://github.com/crashlog/crashlog/blob/master/lib/crash_log/configuration.rb
 end
