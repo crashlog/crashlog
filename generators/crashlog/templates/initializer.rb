@@ -8,7 +8,6 @@
 <% if Rails::VERSION::MAJOR < 3 && Rails::VERSION::MINOR < 2 -%>
 require 'crash_log/rails'
 <% end -%>
-
 CrashLog.configure do |config|
   # ==> Authentication credentials
   # Enter your authentication credentials here. You can get these from the

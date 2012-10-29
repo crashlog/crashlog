@@ -1,37 +1,41 @@
 require 'rails/generators'
 
 class CrashlogGenerator < Rails::Generators::Base
-
-  class_option :api_key, :aliases => "-k", :type => :string, :desc => "Your CrashLog API key"
-  class_option :secret, :aliases => "-s", :type => :string, :desc => "Your CrashLog API secret"
-
-  def self.source_root
-    @_crashlog_source_root ||= File.expand_path("../../../../../generators/crashlog/templates", __FILE__)
-  end
+  argument :api_key, :type => :string
+  class_option :force, :aliases => "-f", :type => :boolean, :desc => "Replace existing crashlog.rb file"
+  source_root File.expand_path("../../../../../generators/crashlog/templates", __FILE__)
 
   def install
-    ensure_api_key_was_configured
+    ensure_api_key_is_valid_format
     generate_initializer unless api_key_configured?
     test_crashlog
   end
 
   private
 
-  def ensure_api_key_was_configured
-    if !options[:api_key] &&
-       !options[:secret] &&
-       !api_key_configured?
-      puts "Must pass --api-key and --secret or create config/initializers/crashlog.rb"
-      exit
+  def ensure_api_key_is_valid_format
+    unless api_key_pair_provided?
+      puts "API_KEY does not match required format: <KEY>:<SECRET>"
+      exit(1)
     end
   end
 
+  def api_key_pair_provided?
+    !!(self.api_key =~ /^(\h){8}-(\h){4}-(\h){4}-(\h){4}-(\h){12}\:\w+$/)
+  end
+
+  def api_key_pair
+    /(?<api_key>^(\h){8}-(\h){4}-(\h){4}-(\h){4}-(\h){12})\:(?<secret>\w+)$/.match(self.api_key)
+  end
+
   def api_key_expression
-    "'#{options[:api_key]}'"
+    api_key = api_key_pair[:api_key]
+    "'#{api_key}'"
   end
 
   def secret_expression
-    "'#{options[:secret]}'"
+    secret = api_key_pair[:secret]
+    "'#{secret}'"
   end
 
   def generate_initializer
@@ -39,11 +43,11 @@ class CrashlogGenerator < Rails::Generators::Base
   end
 
   def api_key_configured?
+    return false if options[:force]
     File.exists?('config/initializers/crashlog.rb')
   end
 
   def test_crashlog
-    puts run("rake crashlog:test")
+    run("rake crashlog:test")
   end
 end
-
