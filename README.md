@@ -21,7 +21,11 @@ Or install it yourself as:
 
     $ gem install crashlog
 
-## Configuration
+Generate a Rails Initializer:
+
+    $ rails generate crashlog KEY:SECRET
+
+## Custom Configuration
 
 ### Basic:
 
