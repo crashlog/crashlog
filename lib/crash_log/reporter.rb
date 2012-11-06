@@ -23,6 +23,8 @@ module CrashLog
       # TODO: Figure out what they do support. IV.
       if MultiJson.respond_to?(:use)
         MultiJson.use(config.json_parser || MultiJson.default_adapter)
+      elsif MultiJson.respond_to?(:engine=)
+        MultiJson.engine = (config.json_parser || MultiJson.default_engine)
       end
     end
 
@@ -31,7 +33,7 @@ module CrashLog
 
       # TODO: Move this to Payload.
       payload[:data] = CrashLog::Helpers.cleanup_obj(payload[:data])
-      payload_string = MultiJson.encode({:payload => payload})
+      payload_string = encode({:payload => payload})
 
       # Useful to make sure we're successfully capturing the right data
       debug(payload.inspect) if config.development_mode?
@@ -50,9 +52,9 @@ module CrashLog
       return if dry_run?
       return "Unknown application" unless announce_endpoint
 
-      response = post(config.announce_endpoint, MultiJson.encode({:payload => identification_hash}))
+      response = post(config.announce_endpoint, encode({:payload => identification_hash}))
       if response.status == 201
-        MultiJson.load(response.body).symbolize_keys.fetch(:application_name, 'Default')
+        decode(response.body).symbolize_keys.fetch(:application_name, 'Default')
       else
         nil
       end
@@ -63,7 +65,7 @@ module CrashLog
     end
 
     def report_result(body)
-      @result = MultiJson.load(body).symbolize_keys
+      @result = decode(body).symbolize_keys
     end
 
     def url
@@ -116,6 +118,29 @@ module CrashLog
 
     def adapter
       config.adapter
+    end
+
+    # FIXME: This is some seriously annoying shit.
+    # MultiJson should not have deprecated its old API and we wouldn't need
+    # to do this.
+    def encode(object)
+      if MultiJson.respond_to?(:dump)
+        # MultiJson >= 1.3
+        MultiJson.dump(object)
+      elsif MultiJson.respond_to?(:encode)
+        # MultiJson < 1.3
+        MultiJson.encode(object)
+      end
+    end
+
+    def decode(string, options = {})
+      if MultiJson.respond_to?(:load)
+        # MultiJson >= 1.3
+        MultiJson.load(string, options)
+      elsif MultiJson.respond_to?(:decode)
+        # MultiJson < 1.3
+        MultiJson.decode(string, options)
+      end
     end
   end
 end

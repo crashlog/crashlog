@@ -16,9 +16,9 @@ Gem::Specification.new do |gem|
   gem.version       = CrashLog::VERSION
 
   gem.add_dependency("faraday",       '~> 0.8.4')
-  gem.add_dependency("multi_json",    '~> 1.3.6')
+  gem.add_dependency("multi_json",    '>= 1.1.0')
   gem.add_dependency("crashlog-auth-hmac", '~> 1.1.6')
-  gem.add_dependency("rabl",          '>= 0.6.14')
+  gem.add_dependency("rabl",          '>= 0.6.13')
   gem.add_dependency("uuid")
   gem.add_dependency("hashr")
   gem.add_dependency("json")
