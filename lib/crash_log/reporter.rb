@@ -19,8 +19,6 @@ module CrashLog
       @announce_endpoint = config.announce == true ?
                            config.announce_endpoint : nil
 
-      # Old versions of MultiJson don't support #use.
-      # TODO: Figure out what they do support. IV.
       if MultiJson.respond_to?(:use)
         MultiJson.use(config.json_parser || MultiJson.default_adapter)
       elsif MultiJson.respond_to?(:engine=)
