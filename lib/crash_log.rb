@@ -68,7 +68,6 @@ module CrashLog
 
     # Print a message at the top of the applciation's logs to say we're ready.
     def report_for_duty!
-      self.reporter = CrashLog::Reporter.new(configuration)
       application = reporter.announce
 
       if application
@@ -84,16 +83,18 @@ module CrashLog
       if block_given?
         yield(configuration)
 
-        self.reporter = CrashLog::Reporter.new(configuration)
+        if live?
+          self.reporter = CrashLog::Reporter.new(configuration)
 
-        if configuration.valid?
-          if announce.eql?(true)
-            report_for_duty!
-          else
-            debug("Configuration updated successfully")
+          if configuration.valid?
+            if announce.eql?(true)
+              report_for_duty!
+            else
+              debug("Configuration updated successfully")
+            end
+          elsif !configuration.invalid_keys.include?(:api_key)
+            error("Not configured correctly. Missing the following keys: #{configuration.invalid_keys.join(', ')}")
           end
-        elsif !configuration.invalid_keys.include?(:api_key)
-          error("Not configured correctly. Missing the following keys: #{configuration.invalid_keys.join(', ')}")
         end
       end
       configuration
