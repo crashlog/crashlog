@@ -17,3 +17,5 @@ tmp
 
 spec/dummy/log/development.log
 .rbenv-*
+
+/.rbx/

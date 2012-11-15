@@ -1,0 +1,15 @@
+Description:
+  Generates an initializer in config/initializers and
+  runs `rake crashlog:test` to ensure you're able to send exceptions.
+
+Example:
+
+  rails generate crashlog KEY:SECRET
+
+Help:
+  If you receive an error during the connection test it is most likely that your
+  KEY or SECRET are incorrect.
+
+  If you continue to have issues, or you just want to say hi, send
+  an email to support@crashlog.io
+

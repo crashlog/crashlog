@@ -9,7 +9,9 @@ insight into issues occurring within your production applications, in realtime.
 
 Add this line to your application's Gemfile:
 
-    gem 'crashlog'
+```ruby
+gem 'crashlog'
+```
 
 And then execute:
 
@@ -19,7 +21,11 @@ Or install it yourself as:
 
     $ gem install crashlog
 
-## Configuration
+Generate a Rails Initializer:
+
+    $ rails generate crashlog KEY:SECRET
+
+## Custom Configuration
 
 ### Basic:
 

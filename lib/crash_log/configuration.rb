@@ -156,7 +156,9 @@ module CrashLog
       :service_name => 'CrashLog',
 
       # MultiJson adapter
-      :json_parser => MultiJson.default_adapter,
+      :json_parser => MultiJson.respond_to?(:default_adapter) ?
+                      MultiJson.default_adapter :
+                      MultiJson.default_engine,
 
       # Development mode
       # When enabled we don't swallow internal exceptions.

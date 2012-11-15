@@ -8,13 +8,13 @@ GIT
 PATH
   remote: .
   specs:
-    crashlog (1.0.3)
+    crashlog (1.0.4)
       crashlog-auth-hmac (~> 1.1.6)
       faraday (~> 0.8.4)
       hashr
       json
-      multi_json (~> 1.3.6)
-      rabl (>= 0.6.14)
+      multi_json (>= 1.1.0)
+      rabl (>= 0.6.13)
       uuid
 
 GEM
@@ -50,9 +50,9 @@ GEM
       rb-inotify (~> 0.8.8)
     macaddr (1.6.1)
       systemu (~> 2.5.0)
-    multi_json (1.3.6)
+    multi_json (1.3.7)
     multipart-post (1.1.5)
-    rabl (0.7.3)
+    rabl (0.7.6)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
     rack (1.4.1)
