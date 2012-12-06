@@ -15,6 +15,8 @@ require_relative 'crash_log/reporter'
 require_relative 'crash_log/system_information'
 require_relative 'crash_log/rack'
 
+require_relative "crash_log/sidekiq" if defined?(Sidekiq)
+
 module CrashLog
   extend Logging::ClassMethods
 
