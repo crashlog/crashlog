@@ -8,6 +8,10 @@ if defined?(Rails)
     # include RSpec::Rails::RequestExampleGroup
     include Rack::Test::Methods
 
+    def app
+      Rails.application
+    end
+
     class CollectingReporter
       attr_reader :collected
 
@@ -42,8 +46,8 @@ if defined?(Rails)
       CrashLog.configuration.root = File.expand_path("../..", __FILE__)
     end
 
-    it 'is testing tails 3.x' do
-      Rails.version.should =~ /^3\.2\./
+    it 'is testing Rails 3.x' do
+      Rails.version.should =~ /^3\./
     end
 
     describe 'dummy app' do
