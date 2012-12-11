@@ -132,12 +132,12 @@ module CrashLog
     end
 
     def decode(string, options = {})
-      if MultiJson.respond_to?(:load)
-        # MultiJson >= 1.3
-        MultiJson.load(string, options)
-      elsif MultiJson.respond_to?(:decode)
+      if MultiJson.respond_to?(:decode)
         # MultiJson < 1.3
         MultiJson.decode(string, options)
+      elsif MultiJson.respond_to?(:load)
+        # MultiJson >= 1.3
+        MultiJson.load(string, options)
       end
     end
   end
