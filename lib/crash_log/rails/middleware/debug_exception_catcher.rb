@@ -19,9 +19,11 @@ module CrashLog
             end
 
           rescue Exception => e
+            raise e if CrashLog.config.development_mode.eql?(true)
             # If it breaks here there is possibly something wrong with us, so
             # instead of crashing again, we'll just pass it on.
           end
+
           render_exception_without_crash_log(env, exception)
         end
 
@@ -29,13 +31,13 @@ module CrashLog
 
         def crash_log_context(controller, env)
           if controller.respond_to?(:crash_log_context)
-            controller.crash_log_context
+            controller.crash_log_context(env)
           else
-            {:rack_env => env}
+            {}
           end
 
-        rescue => e
-          {:failed_context => true}
+        # rescue => e
+          # {}
         end
 
       end

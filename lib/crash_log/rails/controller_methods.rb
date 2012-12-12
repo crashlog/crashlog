@@ -2,13 +2,15 @@ module CrashLog
   module Rails
     module ControllerMethods
 
-      def crash_log_context
+      def crash_log_context(env = nil)
         {
           :context => {
             :controller       => params[:controller],
             :action           => params[:action],
             :current_user     => crash_log_current_user
           },
+          :request          => process_headers(request.env),
+          :response         => process_response,
           :parameters       => crash_log_filter_if_filtering(params.to_hash),
           :session_data     => crash_log_filter_if_filtering(crash_log_session_data),
           :url              => crash_log_request_url,
@@ -30,6 +32,55 @@ module CrashLog
         else
           session.data
         end
+      end
+
+      def process_response
+        response = {}
+
+        if self.respond_to?(:response) && self.response.respond_to?(:headers)
+          response.merge!({:headers => self.response.headers})
+        end
+
+        response
+      end
+
+      def process_headers(env)
+        headers, environment = {}, {}
+        data = nil
+        env.each_pair do |key, value|
+          next unless key.upcase == key # Non-upper case stuff isn't a header
+          if key.start_with?('HTTP_')
+            # Header
+            http_key = key[5..key.length-1].split('_').map{|s| s.capitalize}.join('-')
+            headers[http_key] = value.to_s
+          else
+            # Environment
+            environment[key] = value.to_s
+          end
+        end
+
+        require 'rack'
+        req = ::Rack::Request.new(env)
+        query_string = req.query_string
+        method = req.request_method
+        url = req.url.split('?').first
+
+        data = if req.form_data?
+          req.POST
+        elsif req.body
+          data = req.body.read
+          req.body.rewind
+          data
+        end
+
+        {
+          :url => url,
+          :query_string => query_string,
+          :method => method,
+          :headers => headers,
+          :environment => environment,
+          :data => data
+        }
       end
 
       def crash_log_request_url
@@ -56,13 +107,17 @@ module CrashLog
       end
 
       def crash_log_current_user
-        # Credit to Airbrake gem for this one.
+        user_hash = {}
+        user_attributes = CrashLog.configuration.user_attributes
         user = begin current_user rescue current_member end
-        user.attributes.select do |k, v|
-          CrashLog.configuration.
-            user_attributes.map(&:to_sym).
-            include?(k.to_sym) unless v.blank?
-        end.symbolize_keys
+
+        user_attributes.map(&:to_sym).each do |attribute|
+          if user.respond_to?(attribute)
+            user_hash[attribute] = user.__send__(attribute)
+          end
+        end
+
+        user_hash
       rescue NoMethodError, NameError
         {}
       end
