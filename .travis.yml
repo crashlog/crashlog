@@ -14,3 +14,9 @@ branches:
   only:
     - master
     - develop
+gemfile:
+  - Gemfile
+  - gemfiles/rails_2_3
+  - gemfiles/rails_3_0
+  - gemfiles/rails_3_1
+  - gemfiles/rails_3_2
