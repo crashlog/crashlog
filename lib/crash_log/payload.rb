@@ -28,6 +28,7 @@ module CrashLog
       @context = {}
       @environment = {}
       @data = {}
+      @session = {}
       @backtrace_filters = config[:backtrace_filters] || []
 
       # Actually serialize the exception/event hash for transport
@@ -64,7 +65,7 @@ module CrashLog
     end
 
     def add_session_data(data)
-      (@data[:session] ||= {}).merge!(data) if data.is_a?(Hash)
+      (@session ||= {}).merge!(data) if data.is_a?(Hash)
     end
 
     def add_environment_data(data)
