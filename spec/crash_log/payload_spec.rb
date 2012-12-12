@@ -40,12 +40,14 @@ describe CrashLog::Payload do
     end
 
     it 'allows merging in data' do
+      pending
       data = {:path => '/problematic/path'}
       subject.add_session_data(data)
       subject.data[:session].should == data
     end
 
     it 'allows adding more data' do
+      pending
       data_1 = {:path => '/problematic/path'}
       data_2 = {:count => 42}
       subject.add_session_data(data_1)
