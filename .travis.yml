@@ -1,6 +1,6 @@
 language: ruby
 
-after_install: bundle exec rake appraisal:install
+before_install: bundle exec rake appraisal:install
 script: bundle exec rake appraisal spec
 rvm:
   - 1.9.3
