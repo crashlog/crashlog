@@ -1,4 +1,4 @@
-if defined?(Rails)
+if defined?(Rails) && Rails.respond_to?(:application)
 
   require 'spec_helper'
   require 'rack/test'
@@ -46,15 +46,11 @@ if defined?(Rails)
       CrashLog.configuration.root = File.expand_path("../..", __FILE__)
     end
 
-    it 'is testing Rails 3.x' do
-      Rails.version.should =~ /^3\./
-    end
-
     describe 'dummy app' do
       it 'should response nicely to index' do
         get '/'
         last_response.should be_ok
-        last_response.body.should == 'Works fine here'
+        last_response.body.should == 'Welcome'
       end
     end
 
