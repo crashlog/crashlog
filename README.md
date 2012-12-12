@@ -30,7 +30,7 @@ Generate a Rails Initializer:
 ### Basic:
 
 ```ruby
-CrashLog.configuration do |config|
+CrashLog.configure do |config|
   config.api_key  = "Your API Key"
   config.secret   = "Project Project ID"
 end
