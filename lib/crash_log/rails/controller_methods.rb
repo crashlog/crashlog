@@ -2,20 +2,31 @@ module CrashLog
   module Rails
     module ControllerMethods
 
-      def crash_log_context(env = nil)
-        {
-          :context => {
-            :controller       => params[:controller],
-            :action           => params[:action],
-            :current_user     => crash_log_current_user
-          },
-          :request          => process_headers(request.env),
-          :response         => process_response,
-          :parameters       => crash_log_filter_if_filtering(params.to_hash),
-          :session_data     => crash_log_filter_if_filtering(crash_log_session_data),
-          :url              => crash_log_request_url,
-          :cgi_data         => crash_log_filter_if_filtering(request.env),
-        }
+      # def crash_log_context_old(env = nil)
+      #   {
+      #     :context => {
+      #       :controller       => params[:controller],
+      #       :action           => params[:action],
+      #       :current_user     => crash_log_current_user
+      #     },
+      #     :request          => process_headers(request.env),
+      #     :response         => process_response,
+      #     :parameters       => crash_log_filter_if_filtering(params.to_hash),
+      #     :session_data     => crash_log_filter_if_filtering(crash_log_session_data),
+      #     :url              => crash_log_request_url,
+      #     :cgi_data         => crash_log_filter_if_filtering(request.env),
+      #   }
+      # end
+
+      def crash_log_context(env)
+        payload = {}
+
+        payload[:request]   = process_request(request.env)
+        payload[:response]  = process_response
+        payload[:user]      = crash_log_current_user
+        payload[:context]   = process_context
+
+        payload
       end
 
     private
@@ -44,7 +55,7 @@ module CrashLog
         response
       end
 
-      def process_headers(env)
+      def process_request(env)
         headers, environment = {}, {}
         data = nil
         env.each_pair do |key, value|
@@ -64,6 +75,7 @@ module CrashLog
         query_string = req.query_string
         method = req.request_method
         url = req.url.split('?').first
+        cookies = req.cookies
 
         data = if req.form_data?
           req.POST
@@ -78,9 +90,22 @@ module CrashLog
           :query_string => query_string,
           :method => method,
           :headers => headers,
+          :cookies => cookies,
+          :parameters => crash_log_filter_if_filtering(params.to_hash),
           :environment => environment,
+          :session => crash_log_filter_if_filtering(crash_log_session_data),
           :data => data
         }
+      end
+
+      def process_context
+        {
+          :controller => params[:controller],
+          :action     => params[:action]
+        }
+
+      rescue NoMethodError
+        {}
       end
 
       def crash_log_request_url
