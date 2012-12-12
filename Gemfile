@@ -8,7 +8,7 @@ gem 'rspec'
 gem 'guard-rspec'
 gem 'uuid'
 gem 'json_spec'
-gem 'rake', '~> 0.9.2'
+gem 'rake', '0.9.2'
 gem 'delorean'
 gem 'rack-test'
 gem 'simplecov', :platforms => :mri_19
