@@ -1,9 +1,11 @@
 language: ruby
 
 # before_install: bundle exec rake appraisal:install
+install:
+  - bundle install
+
 script:
-  - bundle exec rake appraisal:install
-  - bundle exec appraisal spec
+  - bundle exec rake spec
 rvm:
   - 1.9.3
   - 1.9.2
