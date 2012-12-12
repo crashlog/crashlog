@@ -2,6 +2,8 @@
 
 source :rubygems
 
+gem "pg"
+gem "rspec-rails"
 gem "rspec"
 gem "guard-rspec"
 gem "uuid"
@@ -11,6 +13,6 @@ gem "delorean"
 gem "rack-test"
 gem "simplecov", :platforms=>:mri_19
 gem "appraisal"
-gem "rails", "2.3.14"
+gem "rails", "3.2.9"
 
 gemspec :path=>"../"
