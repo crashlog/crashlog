@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+# require File.expand_path('../boot', __FILE__)
 
 # require 'rails/all'
 require "action_controller/railtie"
@@ -6,7 +6,7 @@ require "action_controller/railtie"
 # require "active_resource/railtie"
 require "sprockets/railtie"
 
-Bundler.require(*Rails.groups)
+# Bundler.require(*Rails.groups)
 
 module Dummy
   class Application < Rails::Application
@@ -56,4 +56,4 @@ module Dummy
     config.assets.version = '1.0'
   end
 end
-
+require 'crash_log/railtie'

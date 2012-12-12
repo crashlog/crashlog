@@ -1,10 +1,18 @@
-require File.expand_path('../boot', __FILE__)
+ENV['RAILS_ENV'] = 'production'
 
-require 'rails/all'
+# require File.expand_path('../boot', __FILE__)
+
+# Pick the frameworks you want:
+# require "active_record/railtie"
+require "action_controller/railtie"
+# require "action_mailer/railtie"
+# require "active_resource/railtie"
+# require "sprockets/railtie"
+# require "rails/test_unit/railtie"
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+# Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module Dummy
   class Application < Rails::Application
@@ -40,3 +48,5 @@ module Dummy
     config.filter_parameters += [:password]
   end
 end
+
+require 'crash_log/railtie'

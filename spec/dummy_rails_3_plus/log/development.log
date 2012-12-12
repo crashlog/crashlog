@@ -12787,3 +12787,423 @@ Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
   Processing by BreakController#index as HTML
 Rendered text template (0.1ms)
 Completed 200 OK in 20ms (Views: 19.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 21ms (Views: 20.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#index as HTML
+Rendered text template (0.1ms)
+Completed 200 OK in 19ms (Views: 18.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 19ms (Views: 19.1ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 47ms (Views: 46.7ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 13ms (Views: 12.2ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 45ms (Views: 44.6ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 46ms (Views: 46.1ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 46ms (Views: 45.7ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 1ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 52ms (Views: 51.6ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by BreakController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 10ms (Views: 9.6ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.5ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#index as HTML
+Rendered text template (0.1ms)
+Completed 200 OK in 4ms (Views: 4.0ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.3ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#index as HTML
+Rendered text template (0.0ms)
+Completed 200 OK in 4ms (Views: 3.9ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 1ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.4ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.2ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.2ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (3.8ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.4ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.0ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.2ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (5.1ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#really_broken as HTML
+Completed 500 Internal Server Error in 1ms
+
+RuntimeError (You hit the broken route):
+  app/controllers/break_controller.rb:7:in `really_broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.7ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by BreakController#index as HTML
+Rendered text template (0.1ms)
+Completed 200 OK in 5ms (Views: 4.6ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.3ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.2ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.9ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (4.6ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 1ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.3ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.6ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.5ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 1ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.4ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (4.2ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.9ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.5ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#index as HTML
+Rendered text template (0.0ms)
+Completed 200 OK in 3ms (Views: 3.0ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 1ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.4ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (6.9ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.9ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (4.7ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.3ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.7ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (5.1ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.2ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (3.8ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.3ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+Rendered /Users/ivan/.rvm/gems/ruby-1.9.3-p194/gems/actionpack-3.1.8/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (4.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+  Processing by WelcomeController#index as HTML
+Rendered text template (0.1ms)
+Completed 200 OK in 3ms (Views: 3.1ms)
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+
+
+
+Started GET "/broken" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by WelcomeController#broken as HTML
+Completed 500 Internal Server Error in 0ms
+
+StandardError (Broken route):
+  app/controllers/welcome_controller.rb:11:in `broken'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2012-08-01 10:00:00 +1000
+Processing by WelcomeController#index as HTML
+  Rendered text template (0.1ms)
+Completed 200 OK in 16ms (Views: 15.9ms)
