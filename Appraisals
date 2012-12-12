@@ -19,7 +19,7 @@
 
 @versions.each do |version|
   # puts "    - Writing appraisal for Rails #{version.to_s}"
-  appraise "rails_#{version.to_s.gsub(/\./,'_')}" do
+  appraise "rails_#{version.to_s.split('.')[0,2].join('_')}" do
     gem "rails", version.to_s
   end
 end
