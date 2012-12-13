@@ -18,7 +18,7 @@ module CrashLog
       #   }
       # end
 
-      def crash_log_context(env)
+      def crash_log_context
         payload = {}
 
         payload[:request]   = process_request(request.env)
@@ -138,7 +138,11 @@ module CrashLog
 
         user_attributes.map(&:to_sym).each do |attribute|
           if user.respond_to?(attribute)
-            user_hash[attribute] = user.__send__(attribute)
+            if attribute.to_sym == :id
+              user_hash[:user_id] = user.__send__(attribute)
+            else
+              user_hash[attribute] = user.__send__(attribute)
+            end
           end
         end
 

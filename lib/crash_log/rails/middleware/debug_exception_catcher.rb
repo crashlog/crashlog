@@ -31,13 +31,13 @@ module CrashLog
 
         def crash_log_context(controller, env)
           if controller.respond_to?(:crash_log_context)
-            controller.crash_log_context(env)
+            controller.crash_log_context
           else
             {}
           end
 
-        # rescue => e
-          # {}
+        rescue => e
+          {}
         end
 
       end
