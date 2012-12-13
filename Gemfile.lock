@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    crashlog (1.0.7)
+    crashlog (1.1.0.pre1)
       crashlog-auth-hmac (>= 1.1.7)
       faraday (~> 0.8.4)
       hashr
@@ -65,7 +65,7 @@ GEM
       systemu (~> 2.5.0)
     multi_json (1.4.0)
     multipart-post (1.1.5)
-    rabl (0.7.6)
+    rabl (0.7.9)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
     rack (1.4.1)
