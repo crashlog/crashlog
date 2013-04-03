@@ -38,7 +38,7 @@ end
 
 ### Advanced
 
-See [configuration.rb](/crashlog/crashlog/blob/master/lib/crash_log/configuration.rb)
+See [configuration.rb](/lib/crash_log/configuration.rb)
 for available options.
 
 ## Contributing
