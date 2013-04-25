@@ -60,7 +60,7 @@ describe CrashLog do
         exception # should always return an exception like object
       }
       set_before_notify_hook(hook)
-      CrashLog.configuration.before_notify_hook.should_receive(:call).and_return(raised_error)
+      hook.should_receive(:call).and_return(raised_error)
       CrashLog.notify(raised_error)
     end
 
