@@ -48,6 +48,8 @@ module CrashLog
     #
     # Returns true if successful, otherwise false
     def notify(exception, data = {})
+      exception = configuration.before_notify_hook.call(exception, data) if configuration.before_notify_hook.respond_to?(:call)
+
       send_notification(exception, data).tap do |notification|
         if notification
           info "Event sent to CrashLog.io"
