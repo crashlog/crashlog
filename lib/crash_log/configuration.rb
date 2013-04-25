@@ -168,7 +168,7 @@ module CrashLog
       # Before notify hook
       # Must be an object which responds to call with the exception and payload hash as parameters.
       # Will be called within Crashlog.notify before Crashlog.send_notification.
-      :before_notify_hook => nil
+      :before_notify_hook => ->(exception, data) { exception }
 
     def root
       fetch(:project_root)

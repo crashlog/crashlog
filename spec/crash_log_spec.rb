@@ -9,6 +9,10 @@ describe CrashLog do
     CrashLog.configure { |config| config.stage = 'development' }
   end
 
+  def set_before_notify_hook(proc)
+    CrashLog.configure { |config| config.before_notify_hook = proc }
+  end
+
   let(:raised_error) do
     begin
       raise RuntimeError, "This broke"
@@ -49,6 +53,15 @@ describe CrashLog do
 
       context = {:current_user => user}
       CrashLog.notify(raised_error, context)
+    end
+
+    it 'calls the before_notify_hook proc' do
+      hook = ->(exception, data) {
+        exception # should always return an exception like object
+      }
+      set_before_notify_hook(hook)
+      CrashLog.configuration.before_notify_hook.should_receive(:call).and_return(raised_error)
+      CrashLog.notify(raised_error)
     end
 
     it 'handles being passed a hash'
