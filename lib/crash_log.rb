@@ -48,7 +48,9 @@ module CrashLog
     #
     # Returns true if successful, otherwise false
     def notify(exception, data = {})
-      exception = configuration.before_notify_hook.call(exception, data) if configuration.before_notify_hook.respond_to?(:call)
+      if ! configuration.before_notify_hook.nil? && configuration.before_notify_hook.respond_to?(:call)
+        exception = configuration.before_notify_hook.call(exception, data)
+      end
 
       send_notification(exception, data).tap do |notification|
         if notification
