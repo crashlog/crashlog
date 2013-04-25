@@ -163,7 +163,12 @@ module CrashLog
       # Development mode
       # When enabled we don't swallow internal exceptions.
       # Useful for debugging connection issues.
-      :development_mode => false
+      :development_mode => false,
+
+      # Before notify hook
+      # Must be an object which responds to call with the exception and payload hash as parameters.
+      # Will be called within Crashlog.notify before Crashlog.send_notification.
+      :before_notify_hook => nil
 
     def root
       fetch(:project_root)
