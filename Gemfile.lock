@@ -34,6 +34,7 @@ GEM
       rake
     builder (3.0.4)
     chronic (0.6.7)
+    concurrent-ruby (1.1.5)
     crashlog-auth-hmac (1.1.7)
     delorean (2.0.0)
       chronic
@@ -50,7 +51,8 @@ GEM
       guard (>= 1.1)
     hashr (0.0.22)
     hike (1.2.1)
-    i18n (0.6.1)
+    i18n (0.9.5)
+      concurrent-ruby (~> 1.0)
     journey (1.0.4)
     json (1.7.5)
     json (1.7.5-java)
